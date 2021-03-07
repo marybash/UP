@@ -1,0 +1,6 @@
+The term parameter is the string to search.
+The media parameter is a type of content to search.
+The country parameter is a two-letter country code for the store you want to search.
+The limit parameter is the number of search results you want iTunes Store to return.
+
+The result is content matching the request.
