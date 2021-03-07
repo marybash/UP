@@ -1,0 +1,6 @@
+The description parameter is the programming language to search.
+The full_time parameter is for working hours (if you want to limit results to full time positions set this parameter to 'true').
+The page parameter is the page from which you would like to get results.
+The location parameter is the place near which you would like to get positions.
+
+The result is a list with some job offers and information about them.
