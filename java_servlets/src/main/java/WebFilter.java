@@ -14,8 +14,7 @@ public class WebFilter implements Filter {
         long start = System.currentTimeMillis();
         chain.doFilter(request, response);
         long duration = System.currentTimeMillis() - start;
-        String info = ((HttpServletRequest) request).getMethod() + " - " +
-                ((HttpServletRequest) request).getRequestURL() + " - " + duration + "ms";
-        System.out.println(info);
+        System.out.printf("Method: %s, url: %s, duration: %dms%n", ((HttpServletRequest) request).getMethod(),
+                ((HttpServletRequest) request).getRequestURL(), duration);
     }
 }
