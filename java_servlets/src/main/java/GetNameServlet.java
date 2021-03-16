@@ -9,7 +9,7 @@ public class GetNameServlet extends HttpServlet {
         response.setContentType("text/html");
         String name = request.getParameter("name");
         PrintWriter pw = response.getWriter();
-        if (name.length() > 100){
+        if (name.length() > 100) {
             throw new IOException("Name is larger than 100 symbols!");
         }
         pw.println("<html><body>");
