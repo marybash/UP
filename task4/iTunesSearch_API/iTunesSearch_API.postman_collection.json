@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "549cacba-82d8-48b2-bd4f-45ebb1078f8f",
+		"name": "iTunesSearch_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_beyonceMusic",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://itunes.apple.com/search?term=beyonce&media=music",
+					"protocol": "https",
+					"host": [
+						"itunes",
+						"apple",
+						"com"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "beyonce"
+						},
+						{
+							"key": "media",
+							"value": "music"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_JustinBieberFirst10CanadaContent",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://itunes.apple.com/search?term=justin+biener&country=ca&limit=10",
+					"protocol": "https",
+					"host": [
+						"itunes",
+						"apple",
+						"com"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "justin+biener"
+						},
+						{
+							"key": "country",
+							"value": "ca"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_USFinancePodcasts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://itunes.apple.com/search?term=finances&country=us&media=podcast",
+					"protocol": "https",
+					"host": [
+						"itunes",
+						"apple",
+						"com"
+					],
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "term",
+							"value": "finances"
+						},
+						{
+							"key": "country",
+							"value": "us"
+						},
+						{
+							"key": "media",
+							"value": "podcast"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
