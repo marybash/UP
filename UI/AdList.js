@@ -142,7 +142,7 @@ class AdList {
     remove (id) {
         if (typeof id === 'string'){
             let index = this._ads.findIndex(adItem => adItem.id === id);
-            if (index !== -1){
+            if (index !== -1) {
                 this._ads.splice(index, 1);
                 return true;
             }
