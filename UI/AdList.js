@@ -79,7 +79,7 @@ class AdList {
                     }
                     break;
                 case 'hashTags':
-                    if (Array.isArray(adItem.hashTags)) {
+                    if (adItem.hashTags) {
                         if (adItem.hashTags.every(tag => typeof tag === 'string')) {
                             return true;
                         }
@@ -101,7 +101,7 @@ class AdList {
                     }
                     break;
                 case 'reviews':
-                    if (Array.isArray(adItem.reviews)) {
+                    if (adItem.reviews) {
                         if (adItem.reviews.every(tag => typeof tag === 'string')) {
                             return true;
                         }
