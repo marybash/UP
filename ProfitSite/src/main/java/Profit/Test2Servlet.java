@@ -1,10 +1,12 @@
+package Profit;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-public class Test1Servlet extends HttpServlet {
+public class Test2Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/status").forward(request, response);
+        response.sendRedirect("/page");
     }
 }
