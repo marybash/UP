@@ -1,0 +1,199 @@
+*{
+    margin: 0rem;
+    box-sizing: border-box;
+}
+body {
+    margin: 0rem;
+    padding: 0rem;
+    background-color: #B0C4DE;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+header {
+    background-color: #7B68EE;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.01rem;
+    height: 4rem;
+    width: 100%;
+}
+.site-name {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+    font-family: 'Artifika';
+    font-size: 1.5rem;
+}
+.name-and-sign-out {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.username {
+    margin-right: 2rem;
+    font-size: 1.3rem;
+    font-weight: normal;
+    font-style: helvetica;
+    cursor: default;
+}
+.log-out {
+    border: none;
+    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+    height: 4rem;
+}
+.filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 0.0625rem solid black;
+    background-color: #DCDCDC;
+    width: 100%;
+}
+.filter-name {
+    display: flex;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+.filter {
+    display: flex;
+    border-width: 0.1rem;
+    border-color: grey;
+    cursor: text;
+    width: 8rem;
+    border-radius: 0.615rem;
+    font-style: italic;
+    margin-left: 0.1rem;
+}
+.add-new-offer-button {
+    display: flex;
+    float: right;
+    font-size: 0.7rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0.615rem;
+    border-width: 0.01rem;
+    border-color: grey;
+    background-color: #C0C0C0;
+}
+.offers-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 1.5rem;
+}
+.offer {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    background-color: #FFFFFF;
+    padding: 1rem;
+    margin-bottom: 3rem;
+    border-radius: 1rem;
+}
+.offer-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+.offer-picture {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.image-percent-valid {
+    position: relative;
+    width: fit-content;
+}
+.offer-image {
+    width: 10rem;
+    height: 10rem;
+}
+.percent {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    font-weight: bold;
+}
+.valid-until {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    font-weight: bold;
+    font-style: italic;
+}
+.rating {
+    float: right;
+    margin-top: -2rem;
+}
+.checked {
+    color: #FFD700;
+}
+.offer-info{
+    width: 100%;
+    font-size: 1rem;
+}
+.more-feedbacks-button {
+    display: block;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 0.615rem;
+    border-width: 0.01rem;
+    border-color: grey;
+    margin-top: 0.5rem;
+}
+.offer-footer {
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+}
+.feedback-image {
+    width: 2rem;
+    height: 2rem;
+    margin-left: -0.4rem;
+}
+.write-feedback-button {
+    border: none;
+    background-color: transparent;
+    margin-top: -1rem;
+    margin-right: 1rem;
+    margin-left: auto;
+    width: 2rem;
+    height: 2rem;
+}
+.load-more-button {
+    display: block;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 0.615rem;
+    border-width: 0.01rem;
+    border-color: grey;
+    width: 8rem;
+    margin: 0rem auto;
+    margin-top: -3rem;
+}
+footer {
+    text-align: center;
+    width: 100%;
+    height: 1.5rem;
+    padding: 0.01rem;
+}
+.information {
+    padding: 1rem;
+    background-color: #7B68EE;
+    font-size: 1rem;
+    font-style: helvetica;
+	text-align: center;
+	height: 1.5rem;
+	width: 100%;
+	margin-bottom: 0rem;
+}
+
+
