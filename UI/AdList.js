@@ -6,7 +6,7 @@ class AdList {
     }
 
     static comparator(first, second) {
-        return second - first;
+        return second.createdAt - first.createdAt;
     }
 
     getPage (skip = 0, top = 10, filterConfig = undefined) {
