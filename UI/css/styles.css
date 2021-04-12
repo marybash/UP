@@ -117,15 +117,17 @@ header {
     height: 10rem;
 }
 .percent {
+    color: greenyellow;
     position: absolute;
     right: 1rem;
-    bottom: 1rem;
+    top: 0.3rem;
     font-weight: bold;
 }
 .valid-until {
+    color: whitesmoke;
     position: absolute;
-    left: 1rem;
-    top: 0.5rem;
+    left: 0.5rem;
+    top: 0.3rem;
     font-weight: bold;
     font-style: italic;
 }
@@ -155,8 +157,8 @@ header {
     justify-content: space-between;
 }
 .feedback-image {
+    float: right;
     width: 2rem;
-    height: 2rem;
     margin-left: -0.4rem;
 }
 .write-feedback-button {
@@ -164,10 +166,34 @@ header {
     background-color: transparent;
     margin-top: -1rem;
     margin-right: 1rem;
-    margin-left: auto;
     width: 2rem;
     height: 2rem;
 }
+.delete-image {
+    margin-top: 0.7rem;
+    width: 2rem;
+}
+.delete-offer-button {
+    border: none;
+    background-color: transparent;
+    margin-top: -1rem;
+    margin-right: 1rem;
+    width: 2rem;
+    height: 2rem;
+}
+.pen-image {
+    margin-top: 0.7rem;
+    width: 2rem;
+}
+.edit-offer-button {
+    float: right;
+    border: none;
+    background-color: transparent;
+    margin-top: -1rem;
+    width: 2rem;
+    height: 2rem;
+}
+
 .load-more-button {
     display: block;
     font-size: 0.7rem;

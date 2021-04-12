@@ -14,28 +14,24 @@ class AdList {
             console.log('Error with inputting types!');
             return;
         }
+        let returningAds = this._ads;
         if (filterConfig) {
-            let returningAds = this._ads;
             for (let param in filterConfig) {
                 if (param === 'hashTags') {
                     filterConfig.hashTags.forEach(tag => {
                         returningAds = returningAds.filter(ad => ad.hashTags.includes(tag));
                     });
-                } else if (param === 'dateFrom'){
+                } else if (param === 'dateFrom') {
                     returningAds = returningAds.filter(adItem => adItem.createdAt >= filterConfig.dateFrom);
-                } else if (param === 'dateTo'){
+                } else if (param === 'dateTo') {
                     returningAds = returningAds.filter(adItem => adItem.createdAt < filterConfig.dateTo);
-                } else if (param === 'vendor'){
+                } else if (param === 'vendor') {
                     returningAds = returningAds.filter(adItem => adItem.vendor === filterConfig.vendor);
                 }
             }
-            returningAds.sort(AdList.comparator);
-            return returningAds.slice(skip, skip + top);
-        } else {
-            let returningAds = this._ads.slice(skip, skip + top);
-            returningAds.sort(AdList.comparator);
-            return returningAds;
         }
+        returningAds.sort(AdList.comparator);
+        return returningAds.slice(skip, skip + top);
     }
 
     get (id) {
@@ -45,11 +41,16 @@ class AdList {
         console.log('Incorrect type of id. Use \'string\'');
     }
 
-    static validate (adItem, params = ['id', 'description', 'createdAt', 'link', 'vendor', 'hashTags', 'discount', 'validUntil']) {
+    static validate (adItem, params = ['id', 'label', 'description', 'createdAt', 'link', 'vendor', 'hashTags', 'discount', 'validUntil']) {
         return params.every(function (param) {
             switch (param) {
                 case 'id':
                     if (!adItem.id || typeof adItem.id !== 'string' || !adItem.id.trim()) {
+                        return false;
+                    }
+                    break;
+                case 'label':
+                    if (!adItem.label || typeof adItem.label !== 'string' || !adItem.label.trim()) {
                         return false;
                     }
                     break;
@@ -96,7 +97,7 @@ class AdList {
                     }
                     break;
                 case 'rating':
-                    if (adItem.rating && typeof adItem.discount !== 'number' || adItem.discount < 0 || adItem.discount > 5) {
+                    if (adItem.rating && typeof adItem.rating !== 'number' || adItem.rating < 0 || adItem.rating > 5) {
                         return false;
                     }
                     break;
@@ -129,13 +130,14 @@ class AdList {
                 return false;
             }
         }
-        if (!AdList.validate(adItem, Object.keys(adItem))) {
-            return false;
-        }
         let editingAd = this.get(id);
         for (let param in adItem) {
             editingAd[param] = adItem[param];
         }
+        if (!AdList.validate(editingAd, Object.keys(editingAd))) {
+            return false;
+        }
+        Object.assign(this.get(id), editingAd);
         return true;
     }
 
@@ -167,6 +169,7 @@ class AdList {
 let ads = new AdList ([
     {
         id: '1',
+        label: 'Monthly subscription to the gym at a bargain price',
         description: 'GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n' +
             '                                which offers everyone training in a format convenient for them at a minimal cost.',
         createdAt: new Date('2021-01-15T19:56:32'),
@@ -185,6 +188,7 @@ let ads = new AdList ([
     },
     {
         id: '2',
+        label: 'Full day spa pass',
         description: 'Relax and unwind from the daily hustle and bustle in SPA River.',
         createdAt: new Date('2021-03-05T10:17:21'),
         link: 'http://spariver.by/',
@@ -204,6 +208,7 @@ let ads = new AdList ([
     },
     {
         id: '3',
+        label: 'Best set is available with a nice discount',
         description: 'Delicious sushi for the whole family.',
         createdAt: new Date('2021-03-22T15:16:39'),
         link: 'https://sushiinhouse.by/',
@@ -222,6 +227,7 @@ let ads = new AdList ([
     },
     {
         id: '4',
+        label: 'Homemade pizza',
         description: 'Tasty pizza is always a good idea. Especially with 20% discount!',
         createdAt: new Date('2021-03-20T21:52:44'),
         link: 'https://domino.by/',
@@ -239,6 +245,7 @@ let ads = new AdList ([
     },
     {
         id: '5',
+        label: 'Chess school for teenagers',
         description: 'Develop your mind with our chess school.',
         createdAt: new Date('2021-02-09T09:21:38'),
         link: 'https://best-chess-school.by/',
@@ -256,6 +263,7 @@ let ads = new AdList ([
     },
     {
         id: '6',
+        label: 'Monthly subscription to the gym at a bargain price',
         description: 'GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n' +
             '                                which offers everyone training in a format convenient for them at a minimal cost.',
         createdAt: new Date('2021-01-17T19:56:32'),
@@ -274,6 +282,7 @@ let ads = new AdList ([
     },
     {
         id: '7',
+        label: 'Full day spa pass',
         description: 'Relax and unwind from the daily hustle and bustle in SPA River.',
         createdAt: new Date('2021-03-07T10:17:21'),
         link: 'http://spariver.by/',
@@ -293,6 +302,7 @@ let ads = new AdList ([
     },
     {
         id: '8',
+        label: 'Best set is available with a nice discount',
         description: 'Delicious sushi for the whole family.',
         createdAt: new Date('2021-03-10T15:16:39'),
         link: 'https://sushiinhouse.by/',
@@ -311,6 +321,7 @@ let ads = new AdList ([
     },
     {
         id: '9',
+        label: 'Homemade pizza',
         description: 'Tasty pizza is always a good idea. Especially with 20% discount!',
         createdAt: new Date('2021-03-03T21:52:44'),
         link: 'https://domino.by/',
@@ -328,6 +339,7 @@ let ads = new AdList ([
     },
     {
         id: '10',
+        label: 'Chess school for teenagers',
         description: 'Develop your mind with our chess school.',
         createdAt: new Date('2021-02-09T9:21:38'),
         link: 'https://best-chess-school.by/',
@@ -344,6 +356,7 @@ let ads = new AdList ([
         ]
     },{
         id: '11',
+        label: 'Monthly subscription to the gym at a bargain price',
         description: 'GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n' +
             '                                which offers everyone training in a format convenient for them at a minimal cost.',
         createdAt: new Date('2020-12-30T19:56:32'),
@@ -362,6 +375,7 @@ let ads = new AdList ([
     },
     {
         id: '12',
+        label: 'Full day spa pass',
         description: 'Relax and unwind from the daily hustle and bustle in SPA River.',
         createdAt: new Date('2021-03-18T10:17:21'),
         link: 'http://spariver.by/',
@@ -381,6 +395,7 @@ let ads = new AdList ([
     },
     {
         id: '13',
+        label: 'Best set is available with a nice discount',
         description: 'Delicious sushi for the whole family.',
         createdAt: new Date('2021-02-19T15:16:39'),
         link: 'https://sushiinhouse.by/',
@@ -399,6 +414,7 @@ let ads = new AdList ([
     },
     {
         id: '14',
+        label: 'Homemade pizza',
         description: 'Tasty pizza is always a good idea. Especially with 20% discount!',
         createdAt: new Date('2021-03-01T21:52:44'),
         link: 'https://domino.by/',
@@ -416,6 +432,7 @@ let ads = new AdList ([
     },
     {
         id: '15',
+        label: 'Chess school for teenagers',
         description: 'Develop your mind with our chess school.',
         createdAt: new Date('2021-01-16T9:21:38'),
         link: 'https://best-chess-school.by/',
@@ -432,6 +449,7 @@ let ads = new AdList ([
         ]
     },{
         id: '16',
+        label: 'Monthly subscription to the gym at a bargain price',
         description: 'GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n' +
             '                                which offers everyone training in a format convenient for them at a minimal cost.',
         createdAt: new Date('2021-01-07T19:56:32'),
@@ -450,6 +468,7 @@ let ads = new AdList ([
     },
     {
         id: '17',
+        label: 'Full day spa pass',
         description: 'Relax and unwind from the daily hustle and bustle in SPA River.',
         createdAt: new Date('2021-03-20T10:17:21'),
         link: 'http://spariver.by/',
@@ -469,6 +488,7 @@ let ads = new AdList ([
     },
     {
         id: '18',
+        label: 'The best set is available with a nice discount',
         description: 'Delicious sushi for the whole family.',
         createdAt: new Date('2021-03-19T15:16:39'),
         link: 'https://sushiinhouse.by/',
@@ -487,7 +507,8 @@ let ads = new AdList ([
     },
     {
         id: '19',
-        description: 'Tasty pizza is always a good idea. Especially with 20% discount!',
+        label: 'Homemade pizza',
+        description: 'Tasty pizza is always a good idea. Especially with 34% discount!',
         createdAt: new Date('2021-01-27T21:52:44'),
         link: 'https://domino.by/',
         vendor: 'Domino Pizza',
@@ -504,6 +525,7 @@ let ads = new AdList ([
     },
     {
         id: '20',
+        label: 'Chess school for teenagers',
         description: 'Develop your mind with our chess school.',
         createdAt: new Date('2021-03-22T9:21:38'),
         link: 'https://best-chess-school.by/',
