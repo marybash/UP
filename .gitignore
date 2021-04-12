@@ -4,3 +4,6 @@
 out/
 java_servlets/target/
 UI/node_modules
+*.class
+ProfitSite/lib/
+ProfitSite/target/
