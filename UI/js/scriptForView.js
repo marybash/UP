@@ -1,4 +1,4 @@
-let offers = new Model([
+let offers = [
     {
         id: '1',
         label: 'Monthly subscription to the gym at a bargain price',
@@ -15,7 +15,18 @@ let offers = new Model([
         validUntil: new Date('2021-04-01T00:00:00'),
         rating: 3,
         reviews: [
-            'The best gym in Minsk!'
+            {
+                username: '12345',
+                rating: 4,
+                text: 'The best gym in Minsk!',
+                dateReview: new Date('2021-02-20T22:32:05')
+            },
+            {
+                username: 'yrbki69',
+                rating: 2,
+                text: 'dislike',
+                dateReview: new Date('2021-01-16T14:21:32')
+            }
         ]
     },
     {
@@ -33,9 +44,24 @@ let offers = new Model([
         validUntil: new Date('2021-04-10T00:00:00'),
         rating: 5,
         reviews: [
-            'Perfect massage!',
-            'Awesome spa-complex.',
-            'I recommend to book spa for the whole day and enjoy!'
+            {
+                username: 'kate27',
+                rating: 5,
+                text: 'Perfect massage!',
+                dateReview: new Date('2021-04-05T21:44:31')
+            },
+            {
+                username: 'fjx620',
+                rating: 5,
+                text: 'Awesome spa-complex.',
+                dateReview: new Date('2021-04-09T18:18:56')
+            },
+            {
+                username: 'ldvjkdc679',
+                rating: 5,
+                text: 'I recommend to book spa for the whole day and enjoy!',
+                dateReview: new Date('2021-03-20T10:25:23')
+            }
         ]
     },
     {
@@ -53,8 +79,18 @@ let offers = new Model([
         validUntil: new Date('2021-05-22T00:00:00'),
         rating: 4,
         reviews: [
-            'Delicious sushi, but very slow delivery.',
-            'Ordered sushi here for a birthday party, everyone was happy.'
+            {
+                username: 'cblsawbd',
+                rating: 4,
+                text: 'Delicious sushi, but very slow delivery.',
+                dateReview: new Date('2021-03-30T19:56:32')
+            },
+            {
+                username: 'snhqpg27',
+                rating: 5,
+                text: 'Ordered sushi here for a birthday party, everyone was happy.',
+                dateReview: new Date('2021-04-16T19:56:32')
+            }
         ]
     },
     {
@@ -72,7 +108,12 @@ let offers = new Model([
         validUntil: new Date('2021-05-05T00:00:00'),
         rating: 4,
         reviews: [
-            'Not bad.'
+            {
+                username: 'lion567',
+                rating: 4,
+                text: 'Not bad.',
+                dateReview: new Date('2021-01-16T13:51:27')
+            }
         ]
     },
     {
@@ -90,7 +131,12 @@ let offers = new Model([
         validUntil: new Date('2021-06-16T00:00:00'),
         rating: 2,
         reviews: [
-            'Such an awful place with rude teachers.'
+            {
+                username: 'lion567',
+                rating: 2,
+                text: 'Such an awful place with rude teachers.',
+                dateReview: new Date('2021-02-19T20:51:27')
+            }
         ]
     },
     {
@@ -109,7 +155,18 @@ let offers = new Model([
         validUntil: new Date('2021-04-01T00:00:00'),
         rating: 3,
         reviews: [
-            'The best gym in Minsk!'
+            {
+                username: 'shiab',
+                rating: 4,
+                text: 'The best gym in Minsk!',
+                dateReview: new Date('2021-02-20T22:32:05')
+            },
+            {
+                username: 'hsxas',
+                rating: 2,
+                text: 'dislike',
+                dateReview: new Date('2021-01-29T14:21:32')
+            }
         ]
     },
     {
@@ -127,9 +184,24 @@ let offers = new Model([
         validUntil: new Date('2021-04-10T00:00:00'),
         rating: 5,
         reviews: [
-            'Perfect massage!',
-            'Awesome spa-complex.',
-            'I recommend to book spa for the whole day and enjoy!'
+            {
+                username: 'user555',
+                rating: 5,
+                text: 'Perfect massage!',
+                dateReview: new Date('2021-04-09T21:44:31')
+            },
+            {
+                username: 'hsxas',
+                rating: 5,
+                text: 'Awesome spa-complex.',
+                dateReview: new Date('2021-03-13T18:18:56')
+            },
+            {
+                username: 'lover93',
+                rating: 5,
+                text: 'I recommend to book spa for the whole day and enjoy!',
+                dateReview: new Date('2021-03-20T10:25:23')
+            }
         ]
     },
     {
@@ -147,8 +219,18 @@ let offers = new Model([
         validUntil: new Date('2021-05-22T00:00:00'),
         rating: 4,
         reviews: [
-            'Delicious sushi, but very slow delivery.',
-            'Ordered sushi here for a birthday party, everyone was happy.'
+            {
+                username: 'lover93',
+                rating: 4,
+                text: 'Delicious sushi, but very slow delivery.',
+                dateReview: new Date('2021-03-25T19:56:32')
+            },
+            {
+                username: 'lion567',
+                rating: 5,
+                text: 'Ordered sushi here for a birthday party, everyone was happy.',
+                dateReview: new Date('2021-05-20T19:56:32')
+            }
         ]
     },
     {
@@ -166,14 +248,19 @@ let offers = new Model([
         validUntil: new Date('2021-05-05T00:00:00'),
         rating: 4,
         reviews: [
-            'Not bad.'
+            {
+                username: 'user555',
+                rating: 4,
+                text: 'Not bad.',
+                dateReview: new Date('2021-04-19T13:51:27')
+            }
         ]
     },
     {
         id: '10',
         label: 'Chess school for teenagers',
         description: 'Develop your mind with our chess school.',
-        createdAt: new Date('2021-02-09T9:21:38'),
+        createdAt: new Date('2021-02-09T09:21:38'),
         link: 'https://best-chess-school.by/',
         vendor: 'Fide',
         photoLink: 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Opening_chess_position_from_black_side.jpg',
@@ -184,7 +271,12 @@ let offers = new Model([
         validUntil: new Date('2021-06-16T00:00:00'),
         rating: 2,
         reviews: [
-            'Such an awful place with rude teachers.'
+            {
+                username: 'den17',
+                rating: 2,
+                text: 'Such an awful place with rude teachers.',
+                dateReview: new Date('2021-03-31T20:51:27')
+            }
         ]
     },{
         id: '11',
@@ -202,7 +294,18 @@ let offers = new Model([
         validUntil: new Date('2021-03-25T00:00:00'),
         rating: 3,
         reviews: [
-            'The best gym in Minsk!'
+            {
+                username: 'lion567',
+                rating: 4,
+                text: 'The best gym in Minsk!',
+                dateReview: new Date('2021-02-22T22:32:05')
+            },
+            {
+                username: 'den17',
+                rating: 2,
+                text: 'dislike',
+                dateReview: new Date('2021-01-18T14:21:32')
+            }
         ]
     },
     {
@@ -220,9 +323,24 @@ let offers = new Model([
         validUntil: new Date('2021-04-10T00:00:00'),
         rating: 5,
         reviews: [
-            'Perfect massage!',
-            'Awesome spa-complex.',
-            'I recommend to book spa for the whole day and enjoy!'
+            {
+                username: 'user555',
+                rating: 5,
+                text: 'Perfect massage!',
+                dateReview: new Date('2021-04-09T21:44:31')
+            },
+            {
+                username: 'hsxas',
+                rating: 5,
+                text: 'Awesome spa-complex.',
+                dateReview: new Date('2021-03-13T18:18:56')
+            },
+            {
+                username: 'lover93',
+                rating: 5,
+                text: 'I recommend to book spa for the whole day and enjoy!',
+                dateReview: new Date('2021-03-20T10:25:23')
+            }
         ]
     },
     {
@@ -240,8 +358,18 @@ let offers = new Model([
         validUntil: new Date('2021-05-22T00:00:00'),
         rating: 4,
         reviews: [
-            'Delicious sushi, but very slow delivery.',
-            'Ordered sushi here for a birthday party, everyone was happy.'
+            {
+                username: 'user555',
+                rating: 4,
+                text: 'Delicious sushi, but very slow delivery.',
+                dateReview: new Date('2021-02-25T19:56:32')
+            },
+            {
+                username: 'lion567',
+                rating: 5,
+                text: 'Ordered sushi here for a birthday party, everyone was happy.',
+                dateReview: new Date('2021-04-20T19:56:32')
+            }
         ]
     },
     {
@@ -259,7 +387,12 @@ let offers = new Model([
         validUntil: new Date('2021-05-05T00:00:00'),
         rating: 4,
         reviews: [
-            'Not bad.'
+            {
+                username: 'lover93',
+                rating: 4,
+                text: 'Not bad.',
+                dateReview: new Date('2021-03-27T13:51:27')
+            }
         ]
     },
     {
@@ -277,7 +410,12 @@ let offers = new Model([
         validUntil: new Date('2021-06-16T00:00:00'),
         rating: 2,
         reviews: [
-            'Such an awful place with rude teachers.'
+            {
+                username: 'snhqpg27',
+                rating: 2,
+                text: 'Such an awful place with rude teachers.',
+                dateReview: new Date('2021-03-25T20:51:27')
+            }
         ]
     },{
         id: '16',
@@ -295,7 +433,18 @@ let offers = new Model([
         validUntil: new Date('2021-04-05T00:00:00'),
         rating: 3,
         reviews: [
-            'The best gym in Minsk!'
+            {
+                username: 'snhqpg27',
+                rating: 4,
+                text: 'The best gym in Minsk!',
+                dateReview: new Date('2021-01-22T22:32:05')
+            },
+            {
+                username: 'ldvjkdc679',
+                rating: 2,
+                text: 'dislike',
+                dateReview: new Date('2021-03-18T14:21:32')
+            }
         ]
     },
     {
@@ -313,9 +462,24 @@ let offers = new Model([
         validUntil: new Date('2021-04-10T00:00:00'),
         rating: 5,
         reviews: [
-            'Perfect massage!',
-            'Awesome spa-complex.',
-            'I recommend to book spa for the whole day and enjoy!'
+            {
+                username: 'user555',
+                rating: 5,
+                text: 'Perfect massage!',
+                dateReview: new Date('2021-04-09T21:44:31')
+            },
+            {
+                username: 'hsxas',
+                rating: 5,
+                text: 'Awesome spa-complex.',
+                dateReview: new Date('2021-03-21T18:18:56')
+            },
+            {
+                username: 'lover93',
+                rating: 5,
+                text: 'I recommend to book spa for the whole day and enjoy!',
+                dateReview: new Date('2021-03-29T10:25:23')
+            }
         ]
     },
     {
@@ -333,8 +497,18 @@ let offers = new Model([
         validUntil: new Date('2021-05-13T00:00:00'),
         rating: 4,
         reviews: [
-            'Delicious sushi, but very slow delivery.',
-            'Ordered sushi here for a birthday party, everyone was happy.'
+            {
+                username: 'user555',
+                rating: 4,
+                text: 'Delicious sushi, but very slow delivery.',
+                dateReview: new Date('2021-03-30T19:56:32')
+            },
+            {
+                username: 'hsxas',
+                rating: 4,
+                text: 'Ordered sushi here for a birthday party, everyone was happy.',
+                dateReview: new Date('2021-04-20T19:56:32')
+            }
         ]
     },
     {
@@ -352,7 +526,12 @@ let offers = new Model([
         validUntil: new Date('2021-05-17T00:00:00'),
         rating: 4,
         reviews: [
-            'Not bad.'
+            {
+                username: 'hsxas',
+                rating: 4,
+                text: 'Not bad.',
+                dateReview: new Date('2021-02-02T13:51:27')
+            }
         ]
     },
     {
@@ -370,51 +549,258 @@ let offers = new Model([
         validUntil: new Date('2021-06-20T00:00:00'),
         rating: 2,
         reviews: [
-            'Such an awful place with rude teachers.'
+            {
+                username: 'lion567',
+                rating: 2,
+                text: 'Such an awful place with rude teachers.',
+                dateReview: new Date('2021-04-23T20:51:27')
+            }
         ]
     }
-]);
+];
 
-let view;
+function collectOffers() {
+    if (localStorage.getItem("ads") === null) {
+        localStorage.setItem("ads", JSON.stringify(offers));
+    }
+}
+
 
 window.onload = () => {
-    let username = 'maria.bashmakova';
-    view = username.length == 0 ? new View('Guest', false, false) : new View(username, true, true);
+    collectOffers();
+    let view = new View();
     view.refreshPage();
-    view.addAd({
-        id: '34',
-        label: 'TEST',
-        description: 'Description test',
-        createdAt: new Date('2021-04-12T19:56:32'),
-        link: 'https://www.testapp.by/',
-        vendor: 'maria',
-        photoLink: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Flizasenglish.ru%2Fwp-content%2Fuploads%2F2016%2F09%2FTests.png&imgrefurl=https%3A%2F%2Flizasenglish.ru%2Fgrammatika%2Fonlajn-test-present-perfect.html&tbnid=C3TcRjAvS0OtXM&vet=12ahUKEwiZuc22n_nvAhUBgc4BHfmHCOkQMygAegUIARCyAQ..i&docid=eacNGCp9uT7m_M&w=520&h=253&q=test&ved=2ahUKEwiZuc22n_nvAhUBgc4BHfmHCOkQMygAegUIARCyAQ',
-        hashTags: [
-            'test', 'hashtag2'
-        ],
-        discount: '50%',
-        validUntil: new Date('2021-04-20T00:00:00'),
-        rating: 5,
-        reviews: [
-            'review1'
-        ]
-    });
-    view.removeAd('17');
-    view.editAd('3',
-        {
-            label: 'NEW LABEL',
-            description: 'New description',
-            link: 'https://sushiinhouse.by/',
-            photoLink: 'empty',
-            /*hashTags: [
-                'food', 'sushi', 'minsk'
-            ],*/
-            //discount: '17%',
-            validUntil: new Date('2021-05-22T00:00:00'),
-            rating: 4,
-            reviews: [
-                'Delicious sushi, but very slow delivery.',
-                'Ordered sushi here for a birthday party, everyone was happy.'
-            ]
-        })
+
+    let filterConfig = {};
+
+    let filters = document.querySelector(".filters");
+    filters.addEventListener('change', handleFilter);
+
+    function handleFilter(event) {
+        let filter = event.target.parentNode.parentNode;
+        filterConfig.dateFrom = filter.elements.dateFromFilter.value;
+        filterConfig.dateTo = filter.elements.dateToFilter.value;
+        filterConfig.vendor = filter.elements.vendorFilter.value;
+        if (filter.elements.hashtagsFilter.value.length !== 0) {
+            filterConfig.hashTags = filter.elements.hashtagsFilter.value.split(' ');
+        } else {
+            filterConfig.hashTags = [];
+        }
+        filterConfig.hashTags = filter.elements.hashtagsFilter.value.split(' ');
+        view.refreshPage(0, 10, filterConfig);
+    }
+
+    let loadMoreButton = document.querySelector(".load-more-button");
+    loadMoreButton.addEventListener('click', handleLoadMoreButton);
+
+    let shown = 10;
+
+    function handleLoadMoreButton() {
+        view.refreshPage(0, +10, filterConfig, shown);
+        shown += 10;
+    }
+
+    let logInOutButton = document.querySelector(".log-out");
+    logInOutButton.addEventListener('click', handleLogInOutButton);
+
+    function getLogInPage(){
+        return `
+            <p class="log-in-message">Authorization form</p>
+            <form class='log-in-form'>
+                <input type="text" class="login" name ="user" placeholder="Login">
+                <input type="text" class="password" name="password" placeholder="Password">
+                <button class="sign-in-button">Sign in</button>
+            </form>
+        `
+    }
+
+    function loadInfoLogInOut() {
+        if (view.getIsLogIn()) {
+            view.setIsLogIn(false);
+            view.setIsVendor(false);
+            view.setUsername('Guest');
+            view.refreshPage();
+        } else {
+            view.setPage(document.querySelector(".page"));
+            document.querySelector(".page").remove();
+            let newPage = document.createElement("page");
+            newPage.className = "log-in-page";
+            newPage.innerHTML = getLogInPage();
+            document.querySelector('.header').after(newPage);
+        }
+    }
+
+    function handleLogInOutButton() {
+        loadInfoLogInOut();
+        if (document.querySelector(".log-in-page") != null) {
+            document.forms[0].addEventListener('submit', handleSignInButton);
+        }
+    }
+
+    function handleSignInButton(event) {
+        event.preventDefault();
+        let form = event.target;
+        if (form.elements.user.value !== '' && form.elements.password.value !== '') {
+            view.setUsername(form.elements.user.value);
+            view.setIsLogIn(true);
+            view.setIsVendor(true);
+            form.removeEventListener('submit', handleSignInButton);
+            document.querySelector(".log-in-page").remove();
+            document.querySelector('.header').after(view.getViewPage());
+            view.refreshPage();
+        }
+    }
+
+    let addNewOfferButton = document.querySelector(".add-new-offer-button");
+    addNewOfferButton.addEventListener('click', handleAddNewOfferButton);
+
+    function getAddEditOfferPage(message){
+        return `
+            <label class="add-new-offer-message">${message}</label>
+            <form class='add-new-offer-form'>
+               <label class="label-class">Service: <input type="text" class="label" name ="label" placeholder="Name of your service"></label>
+               <label class="description-class">Short <br> description: <input type="text" class="description" name ="description" placeholder="A short description"></label>
+               <label class="discount-class">Discount: <input type="text" class="discount" name ="discount" placeholder="Percentage"></label>
+               <label class="date-class">Offer expires: <input type="date" class="date-to" name ="dateTo"></label>
+               <label class="website-class">Website: <input type="text" class="link" name ="link" placeholder="Link to your website"></label>
+               <label class="photo-class">Photo link: <input type="text" class="photo-link" name ="photoLink" placeholder="Link to the photo"></label>
+               <label class="hashtags-class">Hashtags: <input type="text" class="hashtags" name ="hashtags" placeholder="At least one hashtag"></label>
+               <button class="save-new-offer-button" type="submit">Save</button>
+            </form>
+        `
+    }
+
+    function loadInfoAddEditOffer(message) {
+        view.setPage(document.querySelector(".page"));
+        document.querySelector(".page").remove();
+        let newPage = document.createElement("page");
+        newPage.className = "add-new-offer-page";
+        newPage.innerHTML = getAddEditOfferPage(message);
+        document.querySelector('.header').after(newPage);
+    }
+
+    function handleAddNewOfferButton() {
+        loadInfoAddEditOffer('Add your offer');
+        document.forms[0].addEventListener('submit', handleSaveNewOfferButton);
+    }
+
+    function handleSaveNewOfferButton(event) {
+        event.preventDefault();
+        let form = event.target;
+        let adItem = {};
+        let id = Math.floor(Math.random() * 100) + 30;
+        adItem.id = id.toString();
+        adItem.label = form.elements.label.value;
+        adItem.description = form.elements.description.value;
+        let time = Date.now();
+        adItem.createdAt = new Date(time);
+        adItem.link = form.elements.link.value;
+        adItem.vendor = view.getUsername();
+        adItem.photoLink = form.elements.photoLink.value;
+        adItem.hashTags = form.elements.hashtags.value.split(' ');
+        adItem.discount = form.elements.discount.value + '%';
+        adItem.validUntil = new Date(form.elements.dateTo.value);
+        adItem.reviews = [];
+        view.addAd(adItem);
+        form.removeEventListener('submit', handleSaveNewOfferButton);
+        document.querySelector(".add-new-offer-page").remove();
+        document.querySelector('.header').after(view.getViewPage());
+        view.refreshPage();
+    }
+
+    function getWriteFeedbackPage(){
+        return `
+            <p class="write-feedback-message">Write your feedback</p>
+            <form class='write-feedback-form'>
+               <label class="feedback-class">Feedback: <input type="text" class="feedback" name ="feedback" placeholder="Your feedback"></label>
+               <p class="rating-class">Rating: <input type="text" class="feedback-rating" name ="feedbackRating" placeholder="Rating"></p>
+               <button class="save-new-offer-button" type="submit">Save</button>
+            </form>
+        `
+    }
+
+    function loadInfoWriteFeedback() {
+        view.setPage(document.querySelector(".page"));
+        document.querySelector(".page").remove();
+        let newPage = document.createElement("page");
+        newPage.className = "write-feedback-page";
+        newPage.innerHTML = getWriteFeedbackPage();
+        document.querySelector('.header').after(newPage);
+    }
+
+    let offersList = document.querySelector(".offers-list");
+    offersList.addEventListener('click', handleOffersListClick);
+
+    function handleOffersListClick(event) {
+        let button = event.target.closest('button');
+        if (button.className === 'delete-offer-button') {
+            handleDeleteOfferButton(event);
+        }
+        if (button.className === 'edit-offer-button') {
+            handleEditOfferButton(event);
+        }
+        if (button.className === 'write-feedback-button') {
+            handleWriteFeedbackButton(event);
+        }
+    }
+
+    function handleDeleteOfferButton(event) {
+        let id = event.target.closest('article').parentNode.getAttribute('offer-id');
+        view.removeAd(id);
+        view.refreshPage();
+    }
+
+    let offerToEditId;
+
+    function handleEditOfferButton(event) {
+        loadInfoAddEditOffer('Edit your offer');
+        offerToEditId = event.target.closest('article').parentNode.getAttribute('offer-id');
+        document.forms[0].addEventListener('submit', handleSaveEditedOfferButton);
+    }
+
+    function handleSaveEditedOfferButton(event) {
+        event.preventDefault();
+        let form = event.target;
+        let adItem = {};
+        adItem.label = form.elements.label.value;
+        adItem.description = form.elements.description.value;
+        adItem.link = form.elements.link.value;
+        adItem.photoLink = form.elements.photoLink.value;
+        if (form.elements.hashtags.value !== '') {
+            adItem.hashTags = form.elements.hashtags.value.split(' ');
+        }
+        if (form.elements.discount.value !== '') {
+            adItem.discount = form.elements.discount.value + '%';
+        }
+        if (form.elements.dateTo.value !== '') {
+            adItem.validUntil = new Date(form.elements.dateTo.value);
+        }
+        view.editAd(offerToEditId, adItem);
+        form.removeEventListener('submit', handleSaveEditedOfferButton);
+        document.querySelector(".add-new-offer-page").remove();
+        document.querySelector('.header').after(view.getViewPage());
+        view.refreshPage();
+    }
+
+    function handleWriteFeedbackButton(event) {
+        loadInfoWriteFeedback();
+        offerToEditId = event.target.closest('article').parentNode.getAttribute('offer-id');
+        document.forms[0].addEventListener('submit', handleSaveFeedbackButton);
+    }
+
+    function handleSaveFeedbackButton(event) {
+        event.preventDefault();
+        let form = event.target;
+        let review = {};
+        let time = Date.now();
+        review.dateReview = new Date(time);
+        review.username = view.getUsername();
+        review.text = form.elements.feedback.value;
+        review.rating = parseInt(form.elements.feedbackRating.value);
+        view.addReview(offerToEditId, review);
+        form.removeEventListener('submit', handleSaveFeedbackButton);
+        document.querySelector(".write-feedback-page").remove();
+        document.querySelector('.header').after(view.getViewPage());
+        view.refreshPage();
+    }
 };
