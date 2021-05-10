@@ -82,12 +82,22 @@ header {
     border-color: grey;
     background-color: #C0C0C0;
 }
+.page {
+    display: flex;
+    flex-direction:column;
+    justify-content: start;
+    align-items: center;
+}
 .offers-list {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     padding: 1.5rem;
+    width: 100%;
+}
+.offer-template {
+    width: 100%;
 }
 .offer {
     display: flex;
@@ -142,19 +152,14 @@ header {
     width: 100%;
     font-size: 1rem;
 }
-.more-feedbacks-button {
-    display: block;
-    font-size: 0.7rem;
-    cursor: pointer;
-    border-radius: 0.615rem;
-    border-width: 0.01rem;
-    border-color: grey;
-    margin-top: 0.5rem;
-}
 .offer-footer {
     display: flex;
     flex-direction:row;
     justify-content: space-between;
+}
+.feedbacks-offer {
+    display: flex;
+    flex-direction: column;
 }
 .feedback-image {
     float: right;
@@ -163,6 +168,7 @@ header {
 }
 .write-feedback-button {
     border: none;
+    cursor: pointer;
     background-color: transparent;
     margin-top: -1rem;
     margin-right: 1rem;
@@ -175,6 +181,7 @@ header {
 }
 .delete-offer-button {
     border: none;
+    cursor: pointer;
     background-color: transparent;
     margin-top: -1rem;
     margin-right: 1rem;
@@ -188,12 +195,12 @@ header {
 .edit-offer-button {
     float: right;
     border: none;
+    cursor: pointer;
     background-color: transparent;
     margin-top: -1rem;
     width: 2rem;
     height: 2rem;
 }
-
 .load-more-button {
     display: block;
     font-size: 0.7rem;
@@ -202,14 +209,16 @@ header {
     border-width: 0.01rem;
     border-color: grey;
     width: 8rem;
-    margin: 0rem auto;
-    margin-top: -3rem;
+    margin-top: -1rem;
+    margin-bottom: 3rem;
 }
 footer {
     text-align: center;
     width: 100%;
-    height: 1.5rem;
+    height: 2rem;
     padding: 0.01rem;
+    position: fixed;
+    bottom: 0rem;
 }
 .information {
     padding: 1rem;
@@ -221,5 +230,243 @@ footer {
 	width: 100%;
 	margin-bottom: 0rem;
 }
-
-
+.log-in-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.log-in-message {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10rem;
+    text-align: center;
+    font-size: 3rem;
+}
+.login {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 2.5rem;
+    width: 16rem;
+    font-size: 1.5rem;
+    border-radius: 0.9rem;
+}
+.password {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 2.5rem;
+    width: 16rem;
+    font-size: 1.5rem;
+    border-radius: 0.9rem;
+}
+.sign-in-button {
+    display: flex;
+    flex-direction: column;
+    height: 2rem;
+    width: 7rem;
+    font-size: 1.2rem;
+    border-radius: 0.95rem;
+    cursor: pointer;
+    margin: 0rem auto;
+    background-color: #c2c2c2;
+}
+.add-new-offer-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.add-new-offer-message {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+    text-align: center;
+    font-size: 3rem;
+}
+.label-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.label {
+    display: flex;
+    flex-direction: column;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+.date-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.description-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.description {
+    height: 1.5rem;
+    font-size: 1rem;
+    width: 16rem;
+    border-radius: 0.5rem;
+    font-style: italic;
+}
+.discount-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.discount {
+    height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-style: italic;
+}
+.date-to {
+    height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-style: italic;
+}
+.website-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.link {
+    height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-style: italic;
+}
+.photo-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.photo-link {
+    height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-style: italic;
+}
+.hashtags-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.hashtags {
+    height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-style: italic;
+    margin-bottom: 3rem;
+}
+.save-new-offer-button {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 2rem;
+    width: 7rem;
+    font-size: 1.2rem;
+    border-radius: 0.95rem;
+    cursor: pointer;
+    margin: 0rem auto;
+    background-color: #c2c2c2;
+}
+.write-feedback-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.write-feedback-message {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+    text-align: center;
+    font-size: 3rem;
+}
+.feedback-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.feedback {
+    display: flex;
+    flex-direction: column;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+.rating-class {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.feedback-rating {
+    display: flex;
+    flex-direction: column;
+    height: 1.5rem;
+    width: 16rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
