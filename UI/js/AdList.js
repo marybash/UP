@@ -9,7 +9,7 @@ class AdList {
         return second.createdAt - first.createdAt;
     }
 
-    getPage (skip = 0, top = 10, filterConfig = undefined) {
+    getPage (skip = 0, top = 10, filterConfig = undefined, isForFilter = false) {
         if (typeof skip !== 'number' || typeof top !== 'number') {
             console.log('Error with inputting types!');
             return;
@@ -17,20 +17,26 @@ class AdList {
         let returningAds = this._ads;
         if (filterConfig) {
             for (let param in filterConfig) {
-                if (param === 'hashTags') {
+                if (param === 'hashTags' && filterConfig.hashTags.length !== 0) {
                     filterConfig.hashTags.forEach(tag => {
-                        returningAds = returningAds.filter(ad => ad.hashTags.includes(tag));
-                    });
-                } else if (param === 'dateFrom') {
-                    returningAds = returningAds.filter(adItem => adItem.createdAt >= filterConfig.dateFrom);
-                } else if (param === 'dateTo') {
-                    returningAds = returningAds.filter(adItem => adItem.createdAt < filterConfig.dateTo);
-                } else if (param === 'vendor') {
+                        if (tag.length !== 0) {
+                            returningAds = returningAds.filter(ad => ad.hashTags.includes(tag));
+                        }});
+                } else if (param === 'dateFrom' && filterConfig.dateFrom.length !== 0) {
+                    let dateFrom = new Date(filterConfig.dateFrom);
+                    returningAds = returningAds.filter(adItem => adItem.createdAt >= dateFrom);
+                } else if (param === 'dateTo' && filterConfig.dateTo.length !== 0) {
+                    let dateTo = new Date(filterConfig.dateTo);
+                    returningAds = returningAds.filter(adItem => adItem.createdAt < dateTo);
+                } else if (param === 'vendor' && filterConfig.vendor.length !== 0) {
                     returningAds = returningAds.filter(adItem => adItem.vendor === filterConfig.vendor);
                 }
             }
         }
         returningAds.sort(AdList.comparator);
+        if (isForFilter) {
+            return returningAds;
+        }
         return returningAds.slice(skip, skip + top);
     }
 

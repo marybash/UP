@@ -1,15 +1,26 @@
 class Model {
     _ads = [];
 
-    constructor (ads) {
-        this._ads = ads.concat();
-    }
+    constructor () {}
 
     static comparator(first, second) {
         return second.createdAt - first.createdAt;
     }
 
-    getPage (skip = 0, top = 10, filterConfig = undefined) {
+    save() {
+        localStorage.setItem("ads", JSON.stringify(this._ads));
+    }
+
+    restore() {
+        let ads = localStorage.getItem("ads");
+        this._ads = JSON.parse(ads);
+        this._ads.forEach(ad => {
+            ad.createdAt = new Date(ad.createdAt);
+            ad.validUntil = new Date(ad.validUntil);
+        })
+    }
+
+    getPage (skip = 0, top = 10, filterConfig = undefined, isForFilter = false) {
         if (typeof skip !== 'number' || typeof top !== 'number') {
             console.log('Error with inputting types!');
             return;
@@ -17,20 +28,26 @@ class Model {
         let returningAds = this._ads;
         if (filterConfig) {
             for (let param in filterConfig) {
-                if (param === 'hashTags') {
+                if (param === 'hashTags' && filterConfig.hashTags.length !== 0) {
                     filterConfig.hashTags.forEach(tag => {
-                        returningAds = returningAds.filter(ad => ad.hashTags.includes(tag));
-                    });
-                } else if (param === 'dateFrom') {
-                    returningAds = returningAds.filter(adItem => adItem.createdAt >= filterConfig.dateFrom);
-                } else if (param === 'dateTo') {
-                    returningAds = returningAds.filter(adItem => adItem.createdAt < filterConfig.dateTo);
-                } else if (param === 'vendor') {
+                        if (tag.length !== 0) {
+                            returningAds = returningAds.filter(ad => ad.hashTags.includes(tag));
+                        }});
+                } else if (param === 'dateFrom' && filterConfig.dateFrom.length !== 0) {
+                    let dateFrom = new Date(filterConfig.dateFrom);
+                    returningAds = returningAds.filter(adItem => adItem.createdAt >= dateFrom);
+                } else if (param === 'dateTo' && filterConfig.dateTo.length !== 0) {
+                    let dateTo = new Date(filterConfig.dateTo);
+                    returningAds = returningAds.filter(adItem => adItem.createdAt < dateTo);
+                } else if (param === 'vendor' && filterConfig.vendor.length !== 0) {
                     returningAds = returningAds.filter(adItem => adItem.vendor === filterConfig.vendor);
                 }
             }
         }
         returningAds.sort(Model.comparator);
+        if (isForFilter) {
+            return returningAds;
+        }
         return returningAds.slice(skip, skip + top);
     }
 
@@ -39,6 +56,39 @@ class Model {
             return this._ads.find(adItem => adItem.id === id);
         }
         console.log('Incorrect type of id. Use \'string\'');
+    }
+
+    validateReview(review) {
+        if (review) {
+            if (!review.text || review.text.length > 1000 || typeof review.text !== 'string'
+                || review.rating < 1 || review.rating > 5) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    _calculateRating(id) {
+        let sum = 0;
+        this.get(id).reviews.forEach(review => sum += review.rating);
+        sum /= this.get(id).reviews.length;
+        return sum;
+    }
+
+    addReview(id, review) {
+        let newReview = {
+            username: review.username,
+            rating: review.rating,
+            date: review.dateReview,
+            reviewText: review.text
+        }
+        if (this.validateReview(review)) {
+            this.get(id).reviews.push(review);
+            this.get(id).rating = this._calculateRating(id);
+            this.save();
+            return this.get(id);
+        }
+        return false;
     }
 
     static validate (adItem, params = ['id', 'label', 'description', 'createdAt', 'link', 'vendor', 'hashTags', 'discount', 'validUntil']) {
@@ -102,12 +152,10 @@ class Model {
                     }
                     break;
                 case 'reviews':
-                    if (adItem.reviews) {
-                        if (adItem.reviews.every(tag => typeof tag === 'string')) {
-                            return true;
-                        }
+                    if (!Array.isArray(adItem.reviews)) {
+                        return false;
                     }
-                    return false;
+                    return true;
                 default:
                     return false;
             }
@@ -118,6 +166,7 @@ class Model {
     add (adItem) {
         if (Model.validate(adItem)) {
             this._ads.push(adItem);
+            this.save();
             return true;
         }
         return false;
@@ -132,12 +181,15 @@ class Model {
         }
         let editingAd = this.get(id);
         for (let param in adItem) {
-            editingAd[param] = adItem[param];
+            if (adItem[param]) {
+                editingAd[param] = adItem[param];
+            }
         }
         if (!Model.validate(editingAd, Object.keys(editingAd))) {
             return false;
         }
         Object.assign(this.get(id), editingAd);
+        this.save();
         return true;
     }
 
@@ -146,6 +198,7 @@ class Model {
             let index = this._ads.findIndex(adItem => adItem.id === id);
             if (index !== -1) {
                 this._ads.splice(index, 1);
+                this.save();
                 return true;
             }
         }
