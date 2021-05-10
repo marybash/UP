@@ -22,63 +22,59 @@
                 </div>
             </header>
 
-            <div class="filters">
-                <h1 class="filter-name">Filter by:</h1>
-                <label for="from">Date from:<input class="first-date-filter filter" id="from" type="date"></label>
-                <label for="to">to:<input class="second-date-filter filter" id="to" type="date"></label>
-                <label for="vendor">Name:<input class="name-filter filter" id="vendor" ></input></label>
-                <label for="hashtags-name">Hashtags:<input class="hashtags-filter filter" id="hashtags-name"></input></label>
-                <button class="add-new-offer-button">Add new<br> offer</button>
-            </div>
+            <div class="page">
+                <form class="filters">
+                    <h1 class="filter-name">Filter by:</h1>
+                    <label for="from">Date from:<input class="first-date-filter filter" id="from" type="date" name="dateFromFilter"></label>
+                    <label for="to">to:<input class="second-date-filter filter" id="to" type="date" name="dateToFilter"></label>
+                    <label for="vendor">Name:<input class="name-filter filter" id="vendor" name="vendorFilter"></input></label>
+                    <label for="hashtags-name">Hashtags:<input class="hashtags-filter filter" id="hashtags-name" name="hashtagsFilter"></input></label>
+                    <button class="add-new-offer-button">Add new<br> offer</button>
+                </form>
 
-            <section class="offers-list">
-                <div class="offer-template">
-                    <article class="offer">
-                        <div class="offer-header">
-                            <div class="offer-picture">
-                                <div class="image-percent-valid">
-                                    <img src="" class="offer-image">
-                                    <p class="percent"></p>
-                                    <p class="valid-until"></p>
+                <section class="offers-list">
+                    <div class="offer-template">
+                        <article class="offer">
+                            <div class="offer-header">
+                                <div class="offer-picture">
+                                    <div class="image-percent-valid">
+                                        <img src="" class="offer-image">
+                                        <p class="percent"></p>
+                                        <p class="valid-until"></p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="offer-info">
-                                <h3 class="offer-label"></h3>
-                                <div class= "rating">
-                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                </div>
-                                <p class="vendor-name"></p>
-                                <p>Link for more info:<a class="vendor-link" href=""></a></p>
-                                <p class="description-offer"></p>
-                                <p class="hashtags-offer">
-                                    <span class="tag"></span>
-                                </p>
-                                <div class="feedbacks-offer">
-                                    <h4>Feedbacks</h4>
-                                    <p class="review">Name:
-                                        <span class="review"></span>
+                                <div class="offer-info">
+                                    <h3 class="offer-label"></h3>
+                                    <div class= "rating">
+                                        <h4>Rating</h4>
+                                        <div class= "rating-num"> </div>
+                                    </div>
+                                    <p class="vendor-name"></p>
+                                    <p>Link for more info:<a class="vendor-link" href=""></a></p>
+                                    <p class="description-offer"></p>
+                                    <p class="hashtags-offer">
+                                        <span class="tag"></span>
                                     </p>
-                                    <button class="more-feedbacks-button">More feedbacks</button>
+                                    <div class="feedbacks-offer">
+                                        <h4>Feedbacks:</h4>
+
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
-                        <div class="offer-footer">
-                            <button class="edit-offer-button"><img src="pictures/pen.png" class="pen-image"></button>
-                            <button class="delete-offer-button"><img src="pictures/delete.png" class="delete-image"></button>
-                            <button class="write-feedback-button"><img src="pictures/feedback.png" class="feedback-image"></button>
-                        </div>
-                    </article>
-                </div>
-            </section>
+                            <div class="offer-footer">
+                                <button class="edit-offer-button"><img src="pictures/pen.png" class="pen-image"></button>
+                                <button class="delete-offer-button"><img src="pictures/delete.png" class="delete-image"></button>
+                                <button class="write-feedback-button"><img src="pictures/feedback.png" class="feedback-image"></button>
+                            </div>
+                        </article>
+                    </div>
+                    <button class="load-more-button">Load more</button>
+                </section>
 
-            <button class="load-more-button">Load more</button>
+
+            </div>
             <footer class="footer">
                 <p class="information">
                     Profit! | Maria Bashmakova | 2 course, 6 group | maryia.bashmakova@gmail.com | 12.04.2021
@@ -88,4 +84,4 @@
             <script src="js/View.js"></script>
             <script src="js/scriptForView.js"></script>
         </body>
-</html>
+    </html>
