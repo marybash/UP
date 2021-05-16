@@ -1,25 +1,23 @@
-package Profit;
+package bsu.fpmi.profit;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AdItem {
 
-    private String id;
+    private final String id;
     private String description;
-    private String createdAt;
+    private final Date createdAt;
     private String link;
-    private String vendor;
+    private final String vendor;
     private String photoLink;
     private List<String> hashTags;
     private String discount;
-    private String validUntil;
+    private Date validUntil;
     private int rating;
     private List<String> reviews;
 
-    public AdItem(String id, String description, String createdAt, String link, String vendor,
-                  String photoLink, List<String> hashTags, String discount, String validUntil,
+    public AdItem(String id, String description, Date createdAt, String link, String vendor,
+                  String photoLink, List<String> hashTags, String discount, Date validUntil,
                   int rating, List<String> reviews) {
         this.id = id;
         this.description = description;
@@ -47,14 +45,14 @@ public class AdItem {
     }
 
     public void setHashTags(List<String> hashTags) {
-        Collections.copy(this.hashTags, hashTags);
+        this.hashTags = hashTags;
     }
 
     public void setDiscount(String discount) {
         this.discount = discount;
     }
 
-    public void setValidUntil(String validUntil) {
+    public void setValidUntil(Date validUntil) {
         this.validUntil = validUntil;
     }
 
@@ -63,7 +61,7 @@ public class AdItem {
     }
 
     public void setReviews(List<String> reviews) {
-        Collections.copy(this.reviews, reviews);
+        this.reviews = reviews;
     }
 
     public String getId() {
@@ -74,19 +72,8 @@ public class AdItem {
         return description;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
-    }
-
-    public Date getDateCreatedAt() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        try {
-            date = sdf.parse(createdAt);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
     }
 
     public String getLink() {
@@ -109,21 +96,9 @@ public class AdItem {
         return discount;
     }
 
-    public String getValidUntil() {
+    public Date getValidUntil() {
         return validUntil;
     }
-
-    public Date getDateValidUntil() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        try {
-            date = sdf.parse(validUntil);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-
 
     public int getRating() {
         return rating;

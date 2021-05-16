@@ -1,25 +1,15 @@
-package Profit;
+package bsu.fpmi.profit;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AdList {
     private List<AdItem> ads;
 
     private static class SortByDescendingDate implements Comparator<AdItem> {
         public int compare(AdItem a, AdItem b) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date1 = new Date();
-            Date date2 = new Date();
-            try {
-                date1 = sdf.parse(a.getCreatedAt());
-                date2 = sdf.parse(b.getCreatedAt());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return date2.compareTo(date1);
+            return a.getCreatedAt().compareTo(b.getCreatedAt());
         }
     }
 
@@ -30,52 +20,32 @@ public class AdList {
     public List<AdItem> getPage (AdFilters filters) {
         String skip = filters.getSkip();
         String top = filters.getTop();
-        boolean usedFilter = false;
         if (skip == null) {
-            skip = "0";
+            skip = filters.SKIP_BY_DEFAULT;
         }
         if (top == null) {
-            top = "10";
+            top = filters.TOP_BY_DEFAULT;
         }
         List<AdItem> returningAds = ads;
-        if (filters.getDateFrom() != null) {
-            returningAds = returningAds
-                    .stream()
-                    .filter(ad -> !ad.getDateCreatedAt().before(filters.getDDateFrom()))
-                    .collect(Collectors.toList());
-            usedFilter = true;
+        Stream<AdItem> returningAdsStream = returningAds.stream();
+        if (filters.getCreatedAt() != null) {
+            returningAdsStream = returningAdsStream.filter(ad -> !ad.getCreatedAt().before(filters.getCreatedAt()));
         }
-        if (filters.getDateTo() != null) {
-            returningAds = returningAds
-                    .stream()
-                    .filter(ad -> ad.getDateValidUntil().before(filters.getDDateTo()))
-                    .collect(Collectors.toList());
-            usedFilter = true;
+        if (filters.getValidUntil() != null) {
+            returningAdsStream = returningAdsStream.filter(ad -> !ad.getValidUntil().before(filters.getValidUntil()));
         }
         if (!filters.getHashTags().isEmpty()) {
-            returningAds = returningAds
-                    .stream()
-                    .filter(ad -> ad.getHashTags().containsAll(filters.getHashTags()))
-                    .collect(Collectors.toList());
-            usedFilter = true;
+            returningAdsStream = returningAdsStream.filter(ad -> ad.getHashTags().containsAll(filters.getHashTags()));
         }
         if (filters.getVendor() != null) {
-            returningAds = returningAds
-                    .stream()
-                    .filter(ad -> ad.getVendor().equals(filters.getVendor()))
-                    .collect(Collectors.toList());
-            usedFilter = true;
+            returningAdsStream = returningAdsStream.filter(ad -> ad.getVendor().equals(filters.getVendor()));
         }
-        if (Integer.parseInt(top) > returningAds.size()) {
-            top = String.format("%d", returningAds.size());
+        returningAds = returningAdsStream.sorted(new SortByDescendingDate()).collect(Collectors.toList());
+        int count = Integer.parseInt(skip) + Integer.parseInt(top);
+        if (count > returningAds.size()) {
+            return returningAds;
         }
-        if (usedFilter) {
-            returningAds = returningAds.stream().sorted(new SortByDescendingDate()).collect(Collectors.toList());
-            return returningAds.subList(Integer.parseInt(skip), Integer.parseInt(skip + top));
-        }
-        returningAds =  returningAds.subList(Integer.parseInt(skip), Integer.parseInt(skip + top));
-        returningAds = returningAds.stream().sorted(new SortByDescendingDate()).collect(Collectors.toList());
-        return returningAds;
+        return returningAds.subList(Integer.parseInt(skip), count);
     }
 
     public AdItem get(String id) {
@@ -96,7 +66,7 @@ public class AdList {
                 && ad.getHashTags().size() >= 1 && ad.getHashTags().size() <= 7
                 && ad.getDiscount() != null
                 && ad.getValidUntil() != null
-                && ad.getRating() >= 0 && ad.getRating() <= 5;
+                && ad.getRating() > 0 && ad.getRating() <= 5;
     }
 
     public boolean add(AdItem ad) {
@@ -131,7 +101,7 @@ public class AdList {
             System.out.println(ad.getValidUntil());
             editingAd.setValidUntil(ad.getValidUntil());
         }
-        if (ad.getRating() >= 0 && ad.getRating() <= 5) {
+        if (ad.getRating() > 0 && ad.getRating() <= 5) {
             editingAd.setRating(ad.getRating());
         }
         if (ad.getReviews() != null) {

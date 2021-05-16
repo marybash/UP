@@ -1,4 +1,4 @@
-package Profit;
+package bsu.fpmi.profit;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

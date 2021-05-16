@@ -1,4 +1,4 @@
-package Profit;
+package bsu.fpmi.profit;
 
 import com.google.gson.Gson;
 
@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,36 +27,41 @@ public class AdsServlet extends HttpServlet {
         hashTags.add("sport");
         List<String> reviews = new ArrayList<>();
         reviews.add("The best gym in Minsk!");
-        ads.add(new AdItem("1",
-                "GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n" +
-                        "which offers everyone training in a format convenient for them at a minimal cost.",
-                "2021-01-01",
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            ads.add(new AdItem("1",
+                    "GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n" +
+                            "which offers everyone training in a format convenient for them at a minimal cost.",
+                    sdf.parse("2021-01-01"),
 
-                "https://www.gym247.by/",
-                "GYM247",
-                "https://www.gym24.by/wp-content/uploads/2019/08/DSC08837-400x284.jpg",
-                hashTags,
-                "23%",
-                "2021-04-01",
-                3,
-                reviews));
+                    "https://www.gym247.by/",
+                    "GYM247",
+                    "https://www.gym24.by/wp-content/uploads/2019/08/DSC08837-400x284.jpg",
+                    hashTags,
+                    "23%",
+                    sdf.parse("2021-04-01"),
+                    3,
+                    reviews));
+        } catch (ParseException e) {}
         hashTags.clear();
         hashTags.add("relax");
         hashTags.add("sauna");
         reviews.clear();
         reviews.add("Perfect massage!");
         reviews.add("Awesome spa-complex.");
-        ads.add(new AdItem("2",
-                "Relax and unwind from the daily hustle and bustle in SPA River.",
-                "2021-03-05",
-                "http://spariver.by/",
-                "SPA River",
-                "http://spariviera.by/assets/images/86.jpg",
-                hashTags,
-                "5%",
-                "2021-04-10",
-                5,
-                reviews));
+        try {
+            ads.add(new AdItem("2",
+                    "Relax and unwind from the daily hustle and bustle in SPA River.",
+                    sdf.parse("2021-03-05"),
+                    "http://spariver.by/",
+                    "SPA River",
+                    "http://spariviera.by/assets/images/86.jpg",
+                    hashTags,
+                    "5%",
+                    sdf.parse("2021-04-10"),
+                    5,
+                    reviews));
+        } catch (ParseException e) {}
     }
 
     @Override
