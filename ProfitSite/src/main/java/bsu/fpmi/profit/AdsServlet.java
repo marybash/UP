@@ -66,8 +66,15 @@ public class AdsServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        response.getWriter().print((new Gson()).toJson(crudClass.edit(request.getParameter("id"),
-                (new Gson()).fromJson(request.getReader().readLine(), AdItem.class))));
+        String[] requestURI = request.getRequestURI().split("/");
+        if (requestURI.length == 3 && requestURI[2].equals("edit")) {
+            response.getWriter().print((new Gson()).toJson(crudClass.edit(request.getParameter("id"),
+                    (new Gson()).fromJson(request.getReader().readLine(), AdItem.class))));
+        }
+        if (requestURI.length == 3 && requestURI[2].equals("addReview")) {
+            response.getWriter().print((new Gson()).toJson(crudClass.addReview(request.getParameter("id"),
+                    (new Gson()).fromJson(request.getReader().readLine(), Review.class))));
+        }
     }
 }
 
