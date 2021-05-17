@@ -7,3 +7,4 @@ UI/node_modules
 *.class
 ProfitSite/lib/
 ProfitSite/target/
+ProfitSite/src/main/java/bsu/fpmi/profit/Test.java

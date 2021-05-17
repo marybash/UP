@@ -31,10 +31,11 @@ public class Test {
                     "Andrew", "photo", hashtags, "58", sdf.parse("2021-10-17"), 4, reviews);
             System.out.println(crudClass.edit("1996129408", ad));
             System.out.println((new Gson()).toJson(crudClass.get("1996129408")));
+            Review review = new Review("testUser", "testReview", 4, sdf.parse("2021-03-02"));
+            System.out.println(crudClass.addReview("1996129408", review));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         //crudClass.disconnect();
     }
 }
