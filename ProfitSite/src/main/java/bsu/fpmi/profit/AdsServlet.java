@@ -30,6 +30,7 @@ public class AdsServlet extends HttpServlet {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             ads.add(new AdItem("1",
+                    "GYM247 membership",
                     "GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n" +
                             "which offers everyone training in a format convenient for them at a minimal cost.",
                     sdf.parse("2021-01-01"),
@@ -51,6 +52,7 @@ public class AdsServlet extends HttpServlet {
         reviews.add("Awesome spa-complex.");
         try {
             ads.add(new AdItem("2",
+                    "Relax with Spa River",
                     "Relax and unwind from the daily hustle and bustle in SPA River.",
                     sdf.parse("2021-03-05"),
                     "http://spariver.by/",
