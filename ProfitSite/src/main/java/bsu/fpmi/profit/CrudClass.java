@@ -332,6 +332,26 @@ public class CrudClass {
         return false;
     }
 
+    public boolean addReview(String id, Review review) {
+        try {
+            String query = "INSERT INTO profit.reviews(OFFER_ID, USERNAME, REVIEW, RATING, REVIEW_DATE) " +
+                    "VALUES (?, ?, ?, ?, ?);";
+            PreparedStatement prStatement = connection.prepareStatement(query);
+            int i = 0;
+            prStatement.setInt(++i, Integer.parseInt(id));
+            prStatement.setString(++i, review.getUsername());
+            prStatement.setString(++i, review.getReviewText());
+            prStatement.setInt(++i, review.getRating());
+            prStatement.setTimestamp(++i, new java.sql.Timestamp(review.getReviewDate().getTime()));
+            prStatement.executeUpdate();
+            prStatement.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public int remove(String id){
         try{
             String query = "DELETE FROM profit.offer WHERE offer_id = ?";
