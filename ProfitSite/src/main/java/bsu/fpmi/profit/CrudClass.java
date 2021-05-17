@@ -53,21 +53,21 @@ public class CrudClass {
         return sb.toString();
     }
 
-    private int computeSkip (AdFilters filters) {
+    private int computeSkip(AdFilters filters) {
         if (filters.getSkip() != null) {
             return Integer.parseInt(filters.getSkip());
         }
         return Integer.parseInt(filters.SKIP_BY_DEFAULT);
     }
 
-    private int computeTop (AdFilters filters) {
+    private int computeTop(AdFilters filters) {
         if (filters.getTop() != null) {
             return Integer.parseInt(filters.getTop());
         }
         return Integer.parseInt(filters.TOP_BY_DEFAULT);
     }
 
-    private PreparedStatement prepareStatement (AdFilters filters, String query) throws SQLException {
+    private PreparedStatement prepareStatementFilters(AdFilters filters, String query) throws SQLException {
         PreparedStatement prStatement = connection.prepareStatement(query);
         int i = 1;
         if (filters.getCreatedAt() != null) {
@@ -87,7 +87,7 @@ public class CrudClass {
 
     private AdItem buildItem(ResultSet rs) throws SQLException, ParseException {
         String id = rs.getString("offer_id");
-        int rating = 0;
+        double rating = 0;
         int count = 0;
         List<String> hashTags = new ArrayList<>();
         List<String> reviews = new ArrayList<>();
@@ -101,7 +101,9 @@ public class CrudClass {
             reviews.add(rsReviews.getString("review"));
             rating += rsReviews.getInt("rating");
         }
-        rating /= count;
+        if (count != 0) {
+            rating /= count;
+        }
         String queryHashtags = "SELECT *\n" +
                 "FROM profit.hashtags\n" +
                 "WHERE OFFER_ID = " + id;
@@ -138,7 +140,7 @@ public class CrudClass {
                 prepareFilter(filters) +
                 "ORDER BY CREATED_AT DESC";
         try {
-            PreparedStatement prStatement = prepareStatement(filters, query);
+            PreparedStatement prStatement = prepareStatementFilters(filters, query);
             ResultSet rs = prStatement.executeQuery();
             List<AdItem> list = new ArrayList<AdItem>();
             while (rs.next()) {
@@ -162,9 +164,177 @@ public class CrudClass {
         return null;
     }
 
+    public AdItem get(String id) {
+        String query = "SELECT *\n" +
+                "FROM profit.offer\n" +
+                "LEFT JOIN profit.user as user ON offer.USER_ID = user.USER_ID\n" +
+                "WHERE OFFER_ID = ?";
+        try {
+            PreparedStatement prStatement = connection.prepareStatement(query);
+            prStatement.setInt(1, Integer.parseInt(id));
+            ResultSet rs = prStatement.executeQuery();
+            AdItem item = null;
+            if (rs.next()) {
+                item = buildItem(rs);
+            }
+            rs.close();
+            prStatement.close();
+            return item;
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static boolean validate (AdItem ad) {
+        return ad.getId() != null && ad.getId().length() >= 1
+                && ad.getLabel() != null && ad.getLabel().length() >= 1
+                && ad.getDescription() != null && ad.getDescription().length() < 250
+                && ad.getCreatedAt() != null
+                && ad.getLink() != null && ad.getLink().length() >= 1
+                && ad.getVendor() != null && ad.getVendor().length() >= 1
+                && ad.getHashTags().size() >= 1 && ad.getHashTags().size() <= 7
+                && ad.getDiscount() != null
+                && ad.getValidUntil() != null
+                && ad.getRating() >= 0 && ad.getRating() <= 5;
+    }
+
+    private PreparedStatement prepareStatementAdd(AdItem ad, int userId, int offerId) throws SQLException {
+        String query = "INSERT INTO profit.offer(OFFER_ID, USER_ID, OFFER_NAME, DESCRIPTION, " +
+                "LINK, PHOTO_LINK, CREATED_AT, VALID_UNTIL, DISCOUNT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement prStatement = connection.prepareStatement(query);
+        prStatement = connection.prepareStatement(query);
+        int i = 0;
+        prStatement.setInt(++i, offerId);
+        prStatement.setInt(++i, userId);
+        prStatement.setString(++i, ad.getLabel());
+        prStatement.setString(++i, ad.getDescription());
+        prStatement.setString(++i, ad.getLink());
+        prStatement.setString(++i, ad.getPhotoLink());
+        prStatement.setTimestamp(++i, new java.sql.Timestamp(ad.getCreatedAt().getTime()));
+        prStatement.setDate(++i, new java.sql.Date(ad.getValidUntil().getTime()));
+        prStatement.setInt(++i, Integer.parseInt(ad.getDiscount()));
+        return prStatement;
+    }
+
+    private void addHashtags(AdItem ad, int offerId) throws SQLException {
+        String query = "INSERT INTO profit.hashtags(OFFER_ID, HASHTAG) VALUES (?, ?);";
+        PreparedStatement prStatement = connection.prepareStatement(query);
+        for (String tag : ad.getHashTags()) {
+            int i = 0;
+            prStatement = connection.prepareStatement(query);
+            prStatement.setInt(++i, offerId);
+            prStatement.setString(++i, tag);
+            prStatement.executeUpdate();
+            prStatement.close();
+        }
+    }
+
+    public boolean add(AdItem ad){
+        if (validate(ad)) {
+            try {
+                String query = "SELECT user_id FROM profit.user WHERE username = ?";
+                PreparedStatement prStatement = connection.prepareStatement(query);
+                prStatement.setString(1, ad.getVendor());
+                ResultSet resultSet = prStatement.executeQuery();
+                int userId;
+                if(resultSet.next()) {
+                    userId = resultSet.getInt("user_id");
+                    prStatement.close();
+                    int offerId = (int)ad.getCreatedAt().getTime();
+                    prStatement = prepareStatementAdd(ad, userId, offerId);
+                    prStatement.executeUpdate();
+                    prStatement.close();
+                    addHashtags(ad, offerId);
+                    return true;
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    private String buildEditQuery(AdItem ad){
+        StringBuilder sb = new StringBuilder("UPDATE profit.offer SET ");
+        if(ad.getLabel() != null && ad.getLabel().length() != 0){
+            sb.append("OFFER_NAME = ?, ");
+        }
+        if (ad.getDescription() != null && ad.getDescription().length() != 0) {
+            sb.append("DESCRIPTION = ?, ");
+        }
+        if (ad.getLink() != null) {
+            sb.append("LINK = ?, ");
+        }
+        if (ad.getPhotoLink() != null) {
+            sb.append("PHOTO_LINK = ?, ");
+        }
+        if (ad.getDiscount() != null) {
+            sb.append("DISCOUNT = ?, ");
+        }
+        if (ad.getValidUntil() != null) {
+            sb.append("VALID_UNTIL = ?, ");
+        }
+        sb.deleteCharAt(sb.length() - 2);
+        sb.append("WHERE offer_id = ?");
+        return sb.toString();
+    }
+
+    private PreparedStatement prepareStatementEdit(String query, AdItem ad, String id) throws SQLException {
+        PreparedStatement prStatement = connection.prepareStatement(query);
+        prStatement = connection.prepareStatement(query);
+        int i = 0;
+        if(ad.getLabel() != null && ad.getLabel().length() != 0){
+            prStatement.setString(++i, ad.getLabel());
+        }
+        if (ad.getDescription() != null && ad.getDescription().length() != 0) {
+            prStatement.setString(++i, ad.getDescription());
+        }
+        if (ad.getLink() != null) {
+            prStatement.setString(++i, ad.getLink());
+        }
+        if (ad.getPhotoLink() != null) {
+            prStatement.setString(++i, ad.getPhotoLink());
+        }
+        if (ad.getDiscount() != null) {
+            prStatement.setString(++i, ad.getDiscount());
+        }
+        if (ad.getValidUntil() != null) {
+            prStatement.setDate(++i, new java.sql.Date(ad.getValidUntil().getTime()));
+        }
+        prStatement.setInt(++i, Integer.parseInt(id));
+        return prStatement;
+    }
+
+    private void editHashtags(String id, AdItem ad) throws SQLException{
+        String query = "DELETE FROM profit.hashtags WHERE offer_id = ?";
+        PreparedStatement prStatement = connection.prepareStatement(query);
+        prStatement.setInt(1, Integer.parseInt(id));
+        prStatement.executeUpdate();
+        prStatement.close();
+        addHashtags(ad, Integer.parseInt(id));
+    }
+
+    public boolean edit(String id, AdItem ad){
+        try{
+            String query = buildEditQuery(ad);
+            PreparedStatement prStatement = connection.prepareStatement(query);
+            prStatement = prepareStatementEdit(query, ad, id);
+            prStatement.executeUpdate();
+            prStatement.close();
+            if(ad.getHashTags() != null) {
+                editHashtags(id, ad);
+            }
+            return true;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public int remove(String id){
         try{
-            String query = "DELETE FROM offer WHERE offer_id = ?";
+            String query = "DELETE FROM profit.offer WHERE offer_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, Integer.parseInt(id));
             return preparedStatement.executeUpdate();

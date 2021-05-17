@@ -14,12 +14,12 @@ public class AdItem {
     private List<String> hashTags;
     private String discount;
     private Date validUntil;
-    private int rating;
+    private double rating;
     private List<String> reviews;
 
     public AdItem(String id, String label, String description, Date createdAt, String link, String vendor,
                   String photoLink, List<String> hashTags, String discount, Date validUntil,
-                  int rating, List<String> reviews) {
+                  double rating, List<String> reviews) {
         this.id = id;
         this.label = label;
         this.description = description;
@@ -62,7 +62,7 @@ public class AdItem {
         this.validUntil = validUntil;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -110,7 +110,7 @@ public class AdItem {
         return validUntil;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 

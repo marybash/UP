@@ -2,68 +2,32 @@ package bsu.fpmi.profit;
 
 import com.google.gson.Gson;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class AdsServlet extends HttpServlet {
-    private static AdList ads = new AdList();
+    private final String URL = "jdbc:mysql://localhost:3306/profit";
+    private final String USER = "root";
+    private final String PASSWORD = "123456789";
+    private CrudClass crudClass;
 
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         super.init();
-        List<String> hashTags = new ArrayList<>();
-        hashTags.add("gym");
-        hashTags.add("sport");
-        List<String> reviews = new ArrayList<>();
-        reviews.add("The best gym in Minsk!");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            ads.add(new AdItem("1",
-                    "GYM247 membership",
-                    "GYM247 is the first autonomous 24-hour gym in the center of Minsk,\n" +
-                            "which offers everyone training in a format convenient for them at a minimal cost.",
-                    sdf.parse("2021-01-01"),
+        crudClass = new CrudClass(URL, USER, PASSWORD);
+        crudClass.connect();
+    }
 
-                    "https://www.gym247.by/",
-                    "GYM247",
-                    "https://www.gym24.by/wp-content/uploads/2019/08/DSC08837-400x284.jpg",
-                    hashTags,
-                    "23%",
-                    sdf.parse("2021-04-01"),
-                    3,
-                    reviews));
-        } catch (ParseException e) {}
-        hashTags.clear();
-        hashTags.add("relax");
-        hashTags.add("sauna");
-        reviews.clear();
-        reviews.add("Perfect massage!");
-        reviews.add("Awesome spa-complex.");
-        try {
-            ads.add(new AdItem("2",
-                    "Relax with Spa River",
-                    "Relax and unwind from the daily hustle and bustle in SPA River.",
-                    sdf.parse("2021-03-05"),
-                    "http://spariver.by/",
-                    "SPA River",
-                    "http://spariviera.by/assets/images/86.jpg",
-                    hashTags,
-                    "5%",
-                    sdf.parse("2021-04-10"),
-                    5,
-                    reviews));
-        } catch (ParseException e) {}
+    @Override
+    public void destroy() {
+        crudClass.disconnect();
+        super.destroy();
     }
 
     @Override
@@ -72,14 +36,14 @@ public class AdsServlet extends HttpServlet {
         String[] requestURI = request.getRequestURI().split("/");
         if (requestURI.length == 3 && requestURI[2].equals("add")) {
             BufferedReader reader = request.getReader();
-            ads.add((new Gson()).fromJson(reader, AdItem.class));
+            crudClass.add((new Gson()).fromJson(reader, AdItem.class));
         }
         if (requestURI.length == 3 && requestURI[2].equals("search")) {
             BufferedReader reader = request.getReader();
             Gson gson = new Gson();
             response
                     .getWriter()
-                    .print(ads
+                    .print(crudClass
                             .getPage(gson.fromJson(reader, AdFilters.class)).stream()
                     .map(gson::toJson)
                     .collect(Collectors
@@ -90,19 +54,19 @@ public class AdsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        response.getWriter().print((new Gson()).toJson(ads.get(request.getParameter("id"))));
+        response.getWriter().print((new Gson()).toJson(crudClass.get(request.getParameter("id"))));
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        response.getWriter().print((new Gson()).toJson(ads.remove(request.getParameter("id"))));
+        response.getWriter().print((new Gson()).toJson(crudClass.remove(request.getParameter("id"))));
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
-        response.getWriter().print((new Gson()).toJson(ads.edit(request.getParameter("id"),
+        response.getWriter().print((new Gson()).toJson(crudClass.edit(request.getParameter("id"),
                 (new Gson()).fromJson(request.getReader().readLine(), AdItem.class))));
     }
 }
