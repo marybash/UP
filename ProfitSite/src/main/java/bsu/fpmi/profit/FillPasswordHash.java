@@ -9,7 +9,7 @@ public class FillPasswordHash {
     public static void fillUsersPasswordsDB(Connection connection, ResultSet rs) throws SQLException {
         long number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
         String passwordHash = Long.toString(number);
-        passwordHash = DigestUtils.sha512Hex("meow");
+        passwordHash = DigestUtils.sha512Hex(passwordHash);
         String queryUpdate = "UPDATE profit.user\n" +
                 "SET PASSWORD = ?\n" +
                 "WHERE USER_ID = ?";
