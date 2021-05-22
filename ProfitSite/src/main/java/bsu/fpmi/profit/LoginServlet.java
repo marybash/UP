@@ -47,8 +47,10 @@ public class LoginServlet extends HttpServlet {
                 response.getWriter().println((new Gson()).toJson(user));
             } catch (UserNotFoundException e) {
                 response.sendError(404, "User not found.");
+                e.printStackTrace();
             } catch (WrongPasswordException e) {
                 response.sendError(401, "Wrong password.");
+                e.printStackTrace();
             }
         }
     }

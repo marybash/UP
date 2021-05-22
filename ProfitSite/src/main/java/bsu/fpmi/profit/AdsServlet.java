@@ -81,6 +81,7 @@ public class AdsServlet extends HttpServlet {
             }
         } catch (OfferNotFoundException e) {
             response.sendError(404, "Offer not found.");
+            e.printStackTrace();
         }
     }
 
@@ -107,6 +108,7 @@ public class AdsServlet extends HttpServlet {
             }
         }catch (OfferNotFoundException e) {
             response.sendError(404, "Offer not found.");
+            e.printStackTrace();
         }
     }
 }
