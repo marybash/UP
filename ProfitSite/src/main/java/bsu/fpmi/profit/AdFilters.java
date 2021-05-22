@@ -44,7 +44,9 @@ public class AdFilters {
             if (createdAt != null) {
                 return sdf.parse(createdAt);
             }
-        } catch (ParseException e) {}
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -54,7 +56,9 @@ public class AdFilters {
             if (validUntil != null) {
                 return sdf.parse(validUntil);
             }
-        } catch (ParseException e) {}
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

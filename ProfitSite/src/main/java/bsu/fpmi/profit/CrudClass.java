@@ -8,26 +8,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CrudClass {
-    private final String url;
-    private final String user;
-    private final String password;
+    private final String URL;
+    private final String USER;
+    private final String PASSWORD;
     private Connection connection;
 
     public CrudClass(String url, String user, String password) {
-        this.url = url;
-        this.user = user;
-        this.password = password;
+        this.URL = url;
+        this.USER = user;
+        this.PASSWORD = password;
     }
 
     public boolean connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.connection = DriverManager.getConnection(url, user, password);
+            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
             return true;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
     private String prepareFilter(AdFilters filters) {
@@ -136,7 +140,7 @@ public class CrudClass {
         int top = computeTop(filters);
         String query = "SELECT *\n" +
                 "FROM profit.offer\n" +
-                "LEFT JOIN profit.user as user ON offer.USER_ID = user.USER_ID\n" +
+                "LEFT JOIN profit.USER as USER ON offer.USER_ID = USER.USER_ID\n" +
                 prepareFilter(filters) +
                 "ORDER BY CREATED_AT DESC";
         try {
