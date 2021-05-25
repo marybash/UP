@@ -45,10 +45,14 @@ header {
 }
 .filters {
     display: flex;
+    background-color: #DCDCDC;
+    width: 100%;
+}
+.filters-form {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 1rem;
-    border-bottom: 0.0625rem solid black;
     background-color: #DCDCDC;
     width: 100%;
 }
@@ -81,6 +85,8 @@ header {
     border-width: 0.01rem;
     border-color: grey;
     background-color: #C0C0C0;
+    height: 3rem;
+    margin-top: 0.7rem;
 }
 .page {
     display: flex;

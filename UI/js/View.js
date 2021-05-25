@@ -7,17 +7,11 @@ class View {
     _isVendor;
     _page;
 
-    constructor(user = '', isLogIn = false, isVendor = false) {
+    constructor() {
         this._offers = new Model();
         this._offers.restore();
         this._offerTemplate = document.querySelector('.offer-template');
-        this._username = user;
-        this._isLogIn = isLogIn;
-        this._isVendor = isVendor;
-    }
-
-    getIsLogIn() {
-        return this._isLogIn;
+        this.restore();
     }
 
     getUsername() {
@@ -131,6 +125,18 @@ class View {
         }
     }
 
+    saveUser() {
+        localStorage.setItem("username", this._username);
+        localStorage.setItem("isLogIn", this._isLogIn);
+        localStorage.setItem("isVendor", this._isVendor);
+    }
+
+    restore() {
+        this._username = localStorage.getItem("username");
+        this._isLogIn = JSON.parse(localStorage.getItem("isLogIn"));
+        this._isVendor = JSON.parse(localStorage.getItem("isVendor"));
+    }
+
     refreshPage(skip = 0, top = 10, filterConfig = undefined, shown = 0) {
         document.querySelectorAll('.offer-template').forEach( offer => offer.remove());
         let moreButton = document.querySelector('.load-more-button');
@@ -175,5 +181,93 @@ class View {
             return true;
         }
         return false;
+    }
+
+    getLogInPage(){
+        return `
+            <p class="log-in-message">Authorization form</p>
+            <form class='log-in-form'>
+                <input type="text" class="login" name ="user" placeholder="Login">
+                <input type="text" class="password" name="password" placeholder="Password">
+                <button class="sign-in-button">Sign in</button>
+            </form>
+        `
+    }
+
+    loadInfoLogInOut() {
+        if (this._isLogIn) {
+            this._isLogIn = false;
+            this._isVendor = false;
+            this._username = 'Guest';
+            this.refreshPage();
+        } else {
+            this.setPage(document.querySelector(".page"));
+            document.querySelector(".page").remove();
+            let newPage = document.createElement("page");
+            newPage.className = "log-in-page";
+            newPage.innerHTML = this.getLogInPage();
+            document.querySelector('.header').after(newPage);
+        }
+    }
+
+    removeLogInPage() {
+        document.querySelector(".log-in-page").remove();
+        document.querySelector('.header').after(this.getViewPage());
+    }
+
+
+    getAddEditOfferPage(message){
+        return `
+            <label class="add-new-offer-message">${message}</label>
+            <form class='add-new-offer-form'>
+               <label class="label-class">Service: <input type="text" class="label" name ="label" placeholder="Name of your service"></label>
+               <label class="description-class">Short <br> description: <input type="text" class="description" name ="description" placeholder="A short description"></label>
+               <label class="discount-class">Discount: <input type="text" class="discount" name ="discount" placeholder="Percentage"></label>
+               <label class="date-class">Offer expires: <input type="date" class="date-to" name ="dateTo"></label>
+               <label class="website-class">Website: <input type="text" class="link" name ="link" placeholder="Link to your website"></label>
+               <label class="photo-class">Photo link: <input type="text" class="photo-link" name ="photoLink" placeholder="Link to the photo"></label>
+               <label class="hashtags-class">Hashtags: <input type="text" class="hashtags" name ="hashtags" placeholder="At least one hashtag"></label>
+               <button class="save-new-offer-button" type="submit">Save</button>
+            </form>
+        `
+    }
+
+    loadInfoAddEditOffer(message) {
+        this.setPage(document.querySelector(".page"));
+        document.querySelector(".page").remove();
+        let newPage = document.createElement("page");
+        newPage.className = "add-new-offer-page";
+        newPage.innerHTML = this.getAddEditOfferPage(message);
+        document.querySelector('.header').after(newPage);
+    }
+
+    removeAddNewOfferPage() {
+        document.querySelector(".add-new-offer-page").remove();
+        document.querySelector('.header').after(this.getViewPage());
+    }
+
+    getWriteFeedbackPage(){
+        return `
+            <p class="write-feedback-message">Write your feedback</p>
+            <form class='write-feedback-form'>
+               <label class="feedback-class">Feedback: <input type="text" class="feedback" name ="feedback" placeholder="Your feedback"></label>
+               <p class="rating-class">Rating: <input required type="text" class="feedback-rating" name ="feedbackRating" placeholder="Rating"></p>
+               <button class="save-new-offer-button" type="submit">Save</button>
+            </form>
+        `
+    }
+
+    loadInfoWriteFeedback() {
+        this.setPage(document.querySelector(".page"));
+        document.querySelector(".page").remove();
+        let newPage = document.createElement("page");
+        newPage.className = "write-feedback-page";
+        newPage.innerHTML = this.getWriteFeedbackPage();
+        document.querySelector('.header').after(newPage);
+    }
+
+    removeWriteFeedbackPage() {
+        document.querySelector(".write-feedback-page").remove();
+        document.querySelector('.header').after(this.getViewPage());
     }
 }

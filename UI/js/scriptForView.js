@@ -565,9 +565,18 @@ function collectOffers() {
     }
 }
 
+function collectUser() {
+    if (localStorage.getItem("username") === null) {
+        localStorage.setItem("username", "Guest");
+        localStorage.setItem("isLogIn", false);
+        localStorage.setItem("isVendor", false);
+
+    }
+}
 
 window.onload = () => {
     collectOffers();
+    collectUser();
     let view = new View();
     view.refreshPage();
 
@@ -603,38 +612,12 @@ window.onload = () => {
     let logInOutButton = document.querySelector(".log-out");
     logInOutButton.addEventListener('click', handleLogInOutButton);
 
-    function getLogInPage(){
-        return `
-            <p class="log-in-message">Authorization form</p>
-            <form class='log-in-form'>
-                <input type="text" class="login" name ="user" placeholder="Login">
-                <input type="text" class="password" name="password" placeholder="Password">
-                <button class="sign-in-button">Sign in</button>
-            </form>
-        `
-    }
-
-    function loadInfoLogInOut() {
-        if (view.getIsLogIn()) {
-            view.setIsLogIn(false);
-            view.setIsVendor(false);
-            view.setUsername('Guest');
-            view.refreshPage();
-        } else {
-            view.setPage(document.querySelector(".page"));
-            document.querySelector(".page").remove();
-            let newPage = document.createElement("page");
-            newPage.className = "log-in-page";
-            newPage.innerHTML = getLogInPage();
-            document.querySelector('.header').after(newPage);
-        }
-    }
-
     function handleLogInOutButton() {
-        loadInfoLogInOut();
+        view.loadInfoLogInOut();
         if (document.querySelector(".log-in-page") != null) {
             document.forms[0].addEventListener('submit', handleSignInButton);
         }
+        view.saveUser();
     }
 
     function handleSignInButton(event) {
@@ -645,42 +628,18 @@ window.onload = () => {
             view.setIsLogIn(true);
             view.setIsVendor(true);
             form.removeEventListener('submit', handleSignInButton);
-            document.querySelector(".log-in-page").remove();
-            document.querySelector('.header').after(view.getViewPage());
+            view.removeLogInPage();
+            view.saveUser();
             view.refreshPage();
+
         }
     }
 
     let addNewOfferButton = document.querySelector(".add-new-offer-button");
     addNewOfferButton.addEventListener('click', handleAddNewOfferButton);
 
-    function getAddEditOfferPage(message){
-        return `
-            <label class="add-new-offer-message">${message}</label>
-            <form class='add-new-offer-form'>
-               <label class="label-class">Service: <input type="text" class="label" name ="label" placeholder="Name of your service"></label>
-               <label class="description-class">Short <br> description: <input type="text" class="description" name ="description" placeholder="A short description"></label>
-               <label class="discount-class">Discount: <input type="text" class="discount" name ="discount" placeholder="Percentage"></label>
-               <label class="date-class">Offer expires: <input type="date" class="date-to" name ="dateTo"></label>
-               <label class="website-class">Website: <input type="text" class="link" name ="link" placeholder="Link to your website"></label>
-               <label class="photo-class">Photo link: <input type="text" class="photo-link" name ="photoLink" placeholder="Link to the photo"></label>
-               <label class="hashtags-class">Hashtags: <input type="text" class="hashtags" name ="hashtags" placeholder="At least one hashtag"></label>
-               <button class="save-new-offer-button" type="submit">Save</button>
-            </form>
-        `
-    }
-
-    function loadInfoAddEditOffer(message) {
-        view.setPage(document.querySelector(".page"));
-        document.querySelector(".page").remove();
-        let newPage = document.createElement("page");
-        newPage.className = "add-new-offer-page";
-        newPage.innerHTML = getAddEditOfferPage(message);
-        document.querySelector('.header').after(newPage);
-    }
-
     function handleAddNewOfferButton() {
-        loadInfoAddEditOffer('Add your offer');
+        view.loadInfoAddEditOffer('Add your offer');
         document.forms[0].addEventListener('submit', handleSaveNewOfferButton);
     }
 
@@ -703,29 +662,8 @@ window.onload = () => {
         adItem.reviews = [];
         view.addAd(adItem);
         form.removeEventListener('submit', handleSaveNewOfferButton);
-        document.querySelector(".add-new-offer-page").remove();
-        document.querySelector('.header').after(view.getViewPage());
+        view.removeAddNewOfferPage();
         view.refreshPage();
-    }
-
-    function getWriteFeedbackPage(){
-        return `
-            <p class="write-feedback-message">Write your feedback</p>
-            <form class='write-feedback-form'>
-               <label class="feedback-class">Feedback: <input type="text" class="feedback" name ="feedback" placeholder="Your feedback"></label>
-               <p class="rating-class">Rating: <input type="text" class="feedback-rating" name ="feedbackRating" placeholder="Rating"></p>
-               <button class="save-new-offer-button" type="submit">Save</button>
-            </form>
-        `
-    }
-
-    function loadInfoWriteFeedback() {
-        view.setPage(document.querySelector(".page"));
-        document.querySelector(".page").remove();
-        let newPage = document.createElement("page");
-        newPage.className = "write-feedback-page";
-        newPage.innerHTML = getWriteFeedbackPage();
-        document.querySelector('.header').after(newPage);
     }
 
     let offersList = document.querySelector(".offers-list");
@@ -753,7 +691,7 @@ window.onload = () => {
     let offerToEditId;
 
     function handleEditOfferButton(event) {
-        loadInfoAddEditOffer('Edit your offer');
+        view.loadInfoAddEditOffer('Edit your offer');
         offerToEditId = event.target.closest('article').parentNode.getAttribute('offer-id');
         document.forms[0].addEventListener('submit', handleSaveEditedOfferButton);
     }
@@ -783,7 +721,7 @@ window.onload = () => {
     }
 
     function handleWriteFeedbackButton(event) {
-        loadInfoWriteFeedback();
+        view.loadInfoWriteFeedback();
         offerToEditId = event.target.closest('article').parentNode.getAttribute('offer-id');
         document.forms[0].addEventListener('submit', handleSaveFeedbackButton);
     }
@@ -799,8 +737,7 @@ window.onload = () => {
         review.rating = parseInt(form.elements.feedbackRating.value);
         view.addReview(offerToEditId, review);
         form.removeEventListener('submit', handleSaveFeedbackButton);
-        document.querySelector(".write-feedback-page").remove();
-        document.querySelector('.header').after(view.getViewPage());
+        view.removeWriteFeedbackPage();
         view.refreshPage();
     }
 };
