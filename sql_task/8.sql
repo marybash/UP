@@ -1,0 +1,4 @@
+SELECT * 
+FROM profit.offer
+ORDER BY CREATED_AT DESC
+LIMIT 5
