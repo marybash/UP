@@ -59,10 +59,11 @@ public class AdList {
 
     public static boolean validate (AdItem ad) {
         return ad.getId() != null && ad.getId().length() >= 1
+                && ad.getLabel() != null && ad.getLabel().length() >= 1
                 && ad.getDescription() != null && ad.getDescription().length() < 250
                 && ad.getCreatedAt() != null
-                && ad.getLink() != null
-                && ad.getVendor() != null
+                && ad.getLink() != null && ad.getLink().length() >= 1
+                && ad.getVendor() != null && ad.getVendor().length() >= 1
                 && ad.getHashTags().size() >= 1 && ad.getHashTags().size() <= 7
                 && ad.getDiscount() != null
                 && ad.getValidUntil() != null
@@ -82,6 +83,9 @@ public class AdList {
             return false;
         }
         AdItem editingAd = this.get(id);
+        if (ad.getLabel() != null) {
+            editingAd.setLabel(ad.getLabel());
+        }
         if (ad.getDescription() != null) {
             editingAd.setDescription(ad.getDescription());
         }

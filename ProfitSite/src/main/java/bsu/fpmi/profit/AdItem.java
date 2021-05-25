@@ -5,6 +5,7 @@ import java.util.*;
 public class AdItem {
 
     private final String id;
+    private String label;
     private String description;
     private final Date createdAt;
     private String link;
@@ -13,23 +14,28 @@ public class AdItem {
     private List<String> hashTags;
     private String discount;
     private Date validUntil;
-    private int rating;
+    private double rating;
     private List<String> reviews;
 
-    public AdItem(String id, String description, Date createdAt, String link, String vendor,
+    public AdItem(String id, String label, String description, Date createdAt, String link, String vendor,
                   String photoLink, List<String> hashTags, String discount, Date validUntil,
-                  int rating, List<String> reviews) {
+                  double rating, List<String> reviews) {
         this.id = id;
+        this.label = label;
         this.description = description;
         this.createdAt = createdAt;
         this.link = link;
         this.vendor = vendor;
         this.photoLink = photoLink;
-        this.hashTags = new ArrayList<>(hashTags);
+        this.hashTags = hashTags;
         this.discount = discount;
         this.validUntil = validUntil;
         this.rating = rating;
-        this.reviews = new ArrayList<>(reviews);
+        this.reviews = reviews;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public void setDescription(String description) {
@@ -56,7 +62,7 @@ public class AdItem {
         this.validUntil = validUntil;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -66,6 +72,10 @@ public class AdItem {
 
     public String getId() {
         return id;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public String getDescription() {
@@ -100,7 +110,7 @@ public class AdItem {
         return validUntil;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
