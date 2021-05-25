@@ -11,16 +11,13 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 public class AdsServlet extends HttpServlet {
-    private final String URL = "jdbc:mysql://localhost:3306/profit";
-    private final String USER = "root";
-    private final String PASSWORD = "123456789";
     private CrudClass crudClass;
 
 
     @Override
     public void init() throws ServletException {
         super.init();
-        crudClass = new CrudClass(URL, USER, PASSWORD);
+        crudClass = new CrudClass();
         crudClass.connect();
     }
 

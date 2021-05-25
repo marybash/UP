@@ -27,11 +27,11 @@ public class AdItem {
         this.link = link;
         this.vendor = vendor;
         this.photoLink = photoLink;
-        this.hashTags = new ArrayList<>(hashTags);
+        this.hashTags = hashTags;
         this.discount = discount;
         this.validUntil = validUntil;
         this.rating = rating;
-        this.reviews = new ArrayList<>(reviews);
+        this.reviews = reviews;
     }
 
     public void setLabel(String label) {

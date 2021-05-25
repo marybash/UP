@@ -8,21 +8,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CrudClass {
-    private final String url;
-    private final String user;
-    private final String password;
+    private final String URL = "jdbc:mysql://localhost:3306/profit";
+    private final String USER = "root";
+    private final String PASSWORD = "123456789";
     private Connection connection;
-
-    public CrudClass(String url, String user, String password) {
-        this.url = url;
-        this.user = user;
-        this.password = password;
-    }
 
     public boolean connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.connection = DriverManager.getConnection(url, user, password);
+            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
             return true;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -91,9 +85,7 @@ public class CrudClass {
         int count = 0;
         List<String> hashTags = new ArrayList<>();
         List<String> reviews = new ArrayList<>();
-        String queryReviews = "SELECT *\n" +
-                "FROM profit.reviews\n" +
-                "WHERE OFFER_ID = " + id;
+        String queryReviews = "SELECT * FROM profit.reviews WHERE OFFER_ID = " + id;
         Statement reviewsStatement = connection.createStatement();
         ResultSet rsReviews = reviewsStatement.executeQuery(queryReviews);
         while (rsReviews.next()) {
@@ -104,9 +96,7 @@ public class CrudClass {
         if (count != 0) {
             rating /= count;
         }
-        String queryHashtags = "SELECT *\n" +
-                "FROM profit.hashtags\n" +
-                "WHERE OFFER_ID = " + id;
+        String queryHashtags = "SELECT * FROM profit.hashtags WHERE OFFER_ID = " + id;
         Statement hashtagsStatement = connection.createStatement();
         ResultSet rsHashtags = reviewsStatement.executeQuery(queryHashtags);
         while (rsHashtags.next()) {
@@ -134,13 +124,12 @@ public class CrudClass {
     public List<AdItem> getPage(AdFilters filters) {
         int skip = computeSkip(filters);
         int top = computeTop(filters);
-        String query = "SELECT *\n" +
-                "FROM profit.offer\n" +
-                "LEFT JOIN profit.user as user ON offer.USER_ID = user.USER_ID\n" +
+        String query = "SELECT *" +
+                "FROM profit.offer" +
+                "LEFT JOIN profit.USER as USER ON offer.USER_ID = USER.USER_ID" +
                 prepareFilter(filters) +
                 "ORDER BY CREATED_AT DESC";
-        try {
-            PreparedStatement prStatement = prepareStatementFilters(filters, query);
+        try (PreparedStatement prStatement = prepareStatementFilters(filters, query)) {
             ResultSet rs = prStatement.executeQuery();
             List<AdItem> list = new ArrayList<AdItem>();
             while (rs.next()) {
@@ -165,12 +154,11 @@ public class CrudClass {
     }
 
     public AdItem get(String id) {
-        String query = "SELECT *\n" +
-                "FROM profit.offer\n" +
-                "LEFT JOIN profit.user as user ON offer.USER_ID = user.USER_ID\n" +
+        String query = "SELECT *" +
+                "FROM profit.offer" +
+                "LEFT JOIN profit.user as user ON offer.USER_ID = user.USER_ID" +
                 "WHERE OFFER_ID = ?";
-        try {
-            PreparedStatement prStatement = connection.prepareStatement(query);
+        try (PreparedStatement prStatement = connection.prepareStatement(query)) {
             prStatement.setInt(1, Integer.parseInt(id));
             ResultSet rs = prStatement.executeQuery();
             AdItem item = null;
@@ -219,7 +207,7 @@ public class CrudClass {
 
     private void addHashtags(AdItem ad, int offerId) throws SQLException {
         String query = "INSERT INTO profit.hashtags(OFFER_ID, HASHTAG) VALUES (?, ?);";
-        PreparedStatement prStatement = connection.prepareStatement(query);
+        PreparedStatement prStatement;
         for (String tag : ad.getHashTags()) {
             int i = 0;
             prStatement = connection.prepareStatement(query);
@@ -232,22 +220,22 @@ public class CrudClass {
 
     public boolean add(AdItem ad){
         if (validate(ad)) {
-            try {
-                String query = "SELECT user_id FROM profit.user WHERE username = ?";
-                PreparedStatement prStatement = connection.prepareStatement(query);
+            String query = "SELECT user_id FROM profit.user WHERE username = ?";
+            try (PreparedStatement prStatement = connection.prepareStatement(query)) {
                 prStatement.setString(1, ad.getVendor());
                 ResultSet resultSet = prStatement.executeQuery();
                 int userId;
                 if(resultSet.next()) {
                     userId = resultSet.getInt("user_id");
-                    prStatement.close();
                     int offerId = (int)ad.getCreatedAt().getTime();
-                    prStatement = prepareStatementAdd(ad, userId, offerId);
-                    prStatement.executeUpdate();
-                    prStatement.close();
+                    PreparedStatement prStatementAdd = prepareStatementAdd(ad, userId, offerId);
+                    prStatementAdd.executeUpdate();
+                    prStatementAdd.close();
                     addHashtags(ad, offerId);
                     return true;
                 }
+                resultSet.close();
+                prStatement.close();
             }catch(SQLException e){
                 e.printStackTrace();
             }
@@ -282,7 +270,6 @@ public class CrudClass {
 
     private PreparedStatement prepareStatementEdit(String query, AdItem ad, String id) throws SQLException {
         PreparedStatement prStatement = connection.prepareStatement(query);
-        prStatement = connection.prepareStatement(query);
         int i = 0;
         if(ad.getLabel() != null && ad.getLabel().length() != 0){
             prStatement.setString(++i, ad.getLabel());
@@ -316,15 +303,14 @@ public class CrudClass {
     }
 
     public boolean edit(String id, AdItem ad){
-        try{
-            String query = buildEditQuery(ad);
-            PreparedStatement prStatement = connection.prepareStatement(query);
-            prStatement = prepareStatementEdit(query, ad, id);
+        String query = buildEditQuery(ad);
+        try (PreparedStatement prStatement = prepareStatementEdit(query, ad, id)) {
             prStatement.executeUpdate();
             prStatement.close();
             if(ad.getHashTags() != null) {
                 editHashtags(id, ad);
             }
+            prStatement.close();
             return true;
         }catch(SQLException e){
             e.printStackTrace();
@@ -333,10 +319,9 @@ public class CrudClass {
     }
 
     public boolean addReview(String id, Review review) {
-        try {
-            String query = "INSERT INTO profit.reviews(OFFER_ID, USERNAME, REVIEW, RATING, REVIEW_DATE) " +
-                    "VALUES (?, ?, ?, ?, ?);";
-            PreparedStatement prStatement = connection.prepareStatement(query);
+        String query = "INSERT INTO profit.reviews(OFFER_ID, USERNAME, REVIEW, RATING, REVIEW_DATE) " +
+                "VALUES (?, ?, ?, ?, ?);";
+        try (PreparedStatement prStatement = connection.prepareStatement(query)) {
             int i = 0;
             prStatement.setInt(++i, Integer.parseInt(id));
             prStatement.setString(++i, review.getUsername());
@@ -353,9 +338,8 @@ public class CrudClass {
     }
 
     public int remove(String id){
-        try{
-            String query = "DELETE FROM profit.offer WHERE offer_id = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        String query = "DELETE FROM profit.offer WHERE offer_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, Integer.parseInt(id));
             return preparedStatement.executeUpdate();
         } catch(SQLException e){
